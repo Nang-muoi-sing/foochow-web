@@ -1,6 +1,13 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'flowbite/src/themes/default';
+@plugin "flowbite/plugin";
+@source "~flowbite";
+/* @source "../node_modules/flowbite"; */
 
 @theme {
-  --font-sans: "Noto Sans", "Noto Sans CJK SC", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    'Noto Sans', 'Noto Sans CJK SC', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --font-slogan: 'Smiley Sans', ui-sans-serif, system-ui, sans-serif;
 }
