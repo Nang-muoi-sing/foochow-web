@@ -1,0 +1,1 @@
+import{_ as a}from"./NavBar.vue_vue_type_script_setup_true_lang-BNR5m1-4.js";import{e as s,f as o,m as t,h as r,F as n,l}from"./index-PuPYie3c.js";const u=s({__name:"AboutView",setup(m){return(c,e)=>(l(),o(n,null,[t(a,{class:"absolute z-900"}),e[0]||(e[0]=r("div",{class:"h-screen"},"Hello, about.",-1))],64))}});export{u as default};
