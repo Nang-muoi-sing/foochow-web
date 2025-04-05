@@ -14,6 +14,7 @@
     "@vueuse/core": "^13.0.0",
     "flowbite": "^3.1.2",
     "frontend": "file:",
+    "gsap": "^3.12.7",
     "material-symbols": "^0.29.2",
     "tailwindcss": "^4.1.1",
     "vue": "^3.5.13",
