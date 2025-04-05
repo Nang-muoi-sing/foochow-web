@@ -7,15 +7,16 @@
     <RouterLink to="/">Go to Home</RouterLink>
     <RouterLink to="/about">Go to About</RouterLink>
   </nav> -->
-  <!-- <HomeView></HomeView> -->
+  <HomeView></HomeView>
   <!-- <NavBar></NavBar> -->
   <!-- <DailyCards></DailyCards> -->
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <script setup lang="ts">
 import { initFlowbite } from 'flowbite';
 import { onMounted } from 'vue';
+import HomeView from './views/HomeView.vue';
 // import DailyCards from './components/DailyCards.vue';
 // import NavBar from './components/NavBar.vue';
 onMounted(() => {
