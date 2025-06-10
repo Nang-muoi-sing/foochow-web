@@ -22,7 +22,7 @@
           "
         ></SearchBar>
       </div>
-      <MarqueeWords class="absolute -mt-[10vh]"></MarqueeWords>
+      <FloatWords class="absolute -mt-[5vh]"></FloatWords>
     </div>
     <!-- <div class="relative z-5 -my-12 h-[220vh] overflow-hidden bg-[#efe9dc]">
       <div
@@ -30,7 +30,7 @@
       ></div>
     </div> -->
     <!-- footer -->
-    <!-- <div class="relative z-10 -mt-32 h-56 rounded-t-[48px] bg-zinc-700"></div> -->
+    <Footer class="relative z-10 -mt-[10vh]"></Footer>
   </div>
 </template>
 
@@ -39,7 +39,8 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import NavPanel from '../components/NavPanel.vue';
 import SearchBar from '../components/SearchBar.vue';
-import MarqueeWords from '../components/MarqueeWords.vue';
+import FloatWords from '../components/FloatWords.vue';
+import Footer from '../components/Footer.vue';
 
 const isHistoryVisible = ref(false);
 
