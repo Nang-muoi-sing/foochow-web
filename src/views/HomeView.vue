@@ -1,6 +1,6 @@
 <template>
   <div class="h-fit" @scroll.native="console.log('scroll')">
-    <div class="bg-wheat-50 relative z-10 h-screen overflow-hidden shadow-2xl">
+    <div class="bg-wheat-50 relative z-10 h-screen overflow-hidden">
       <div class="fixed z-500 h-full w-full" :class="toggleDimmer"></div>
       <div class="flex flex-row-reverse px-16 py-8">
         <NavPanel class="w-xs"></NavPanel>
@@ -22,13 +22,13 @@
           "
         ></SearchBar>
       </div>
-      <FloatWords class="absolute -mt-[5vh]"></FloatWords>
+      <FloatWords class="absolute -mt-[5vh] hidden md:block"></FloatWords>
     </div>
-    <!-- <div class="relative z-5 -my-12 h-[220vh] overflow-hidden bg-[#efe9dc]">
-      <div
+    <div class="relative z-5 h-[100vh] overflow-hidden bg-[#efe9dc]">
+      <!-- <div
         class="absolute h-[304vh] w-[120vw] -translate-x-[10vw] -translate-y-[20vh] rotate-6 bg-[url(./assets/bg-map.webp)] bg-cover bg-center opacity-50 brightness-110 saturate-40"
-      ></div>
-    </div> -->
+      ></div> -->
+    </div>
     <!-- footer -->
     <Footer class="relative z-10 -mt-[10vh]"></Footer>
   </div>
