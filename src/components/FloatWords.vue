@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-[50vh] w-full overflow-hidden rounded-lg">
+  <div class="relative h-[55vh] w-full overflow-hidden rounded-lg">
     <a
       v-for="(wordImg, index) in imgList"
       :key="index"
@@ -42,8 +42,8 @@ const generateRandomPositions = () => {
   const padding = 10;
 
   for (let i = 0; i < imgList.length; i++) {
-    const x = padding + Math.random() * (100 - 2 * padding);
-    const y = Math.random() * 100;
+    const x = Math.random() * (100 - padding);
+    const y = Math.random() * (100 - padding);
 
     const isTooClose = positions.some((pos) => {
       const dx = pos.x - x;
