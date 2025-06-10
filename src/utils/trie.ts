@@ -19,6 +19,11 @@ export class Trie {
     this.size = 0;
   }
 
+  clear(): void{
+    this.root = new TrieNode();
+    this.size = 0;
+  }
+
   insert(word: string): void {
     let node = this.root;
     for (const char of word) {
