@@ -2,42 +2,42 @@
   <div class="relative">
     <form @submit.prevent="handleSubmit">
       <div
-        class="flex h-12 flex-row items-center space-x-2 bg-white px-3 outline-2 outline-zinc-300 hover:outline-3 hover:outline-indigo-300"
+        class="outline-rosybrown-300 hover:outline-rosybrown-400 flex h-12 flex-row items-center space-x-2 bg-white px-3 outline-2 hover:outline-3"
         :class="toggleInputFocusStyle"
       >
         <span
-          class="material-symbols-rounded cursor-pointer pl-1 hover:text-blue-700"
+          class="material-symbols-rounded text-rosybrown-400 hover:text-rosybrown-700 cursor-pointer pl-1"
           @click="handleSubmit"
           >search</span
         >
         <input
-          class="h-full w-full text-zinc-800"
+          class="text-rosybrown-800 h-full w-full"
           v-model.trim="searchQuery"
           @input="filterHistory"
           @focus="filterHistory"
         />
         <ul
           v-show="isHistoryVisible && filteredHistory.length > 0"
-          class="absolute top-full right-0 left-0 rounded-b-md bg-white pt-2 outline outline-zinc-300"
+          class="outline-rosybrown-300 absolute top-full right-0 left-0 rounded-b-md bg-white pt-2 outline"
         >
           <li
             v-for="(history, index) in filteredHistory"
             :key="index"
-            class="box-border flex flex-row items-center justify-between border-l-3 border-l-transparent px-4 py-1 hover:border-l-blue-700 hover:bg-zinc-100 hover:text-blue-700"
+            class="hover:border-l-rosybrown-700 hover:text-rosybrown-700 box-border flex flex-row items-center justify-between border-l-3 border-l-transparent px-4 py-1 hover:bg-rosybrown-50"
           >
             <div
               class="flex w-7/8 cursor-pointer flex-row items-center font-sans"
               @click="selectHistory(index)"
             >
               <span
-                class="material-symbols-rounded w-fit pr-4 text-zinc-400"
+                class="material-symbols-rounded text-rosybrown-400 w-fit pr-4"
                 style="font-size: 22px"
                 >history</span
               >
-              <div class="overflow-hidden text-ellipsis">{{ history }}</div>
+              <div class="overflow-hidden text-ellipsis text-rosybrown-600">{{ history }}</div>
             </div>
             <div
-              class="cursor-pointer text-sm text-zinc-400 hover:text-zinc-600 hover:underline"
+              class="text-rosybrown-300 hover:text-rosybrown-500 cursor-pointer text-sm hover:underline"
               @click.stop="deleteHistory(index)"
             >
               删除
@@ -48,7 +48,8 @@
             class="flex flex-row-reverse items-baseline px-4 py-1"
           >
             <div
-              class="cursor-pointer text-xs text-zinc-400 hover:text-zinc-600"
+              class="cursor-pointer text-xs text-rosybrown-300 hover:text-rosybrown-500"
+              @click.stop="clearHistory"
             >
               清空历史
             </div>
@@ -123,6 +124,12 @@ const selectHistory = (index: number) => {
 const deleteHistory = (index: number) => {
   trieHistory.delete(filteredHistory.value.splice(index, 1)[0]);
   localStorage.setItem('searchHistory', trieHistory.serialize());
+};
+
+const clearHistory = () => {
+  filteredHistory.value = [];
+  trieHistory.clear();
+  localStorage.removeItem('searchHistory');
 };
 
 const toggleInputFocusStyle = computed(() => {
