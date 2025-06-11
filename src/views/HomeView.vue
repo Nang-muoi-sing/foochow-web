@@ -22,7 +22,7 @@
           "
         ></SearchBar>
       </div>
-      <FloatWords class="absolute top-0 hidden md:block"></FloatWords>
+      <FloatingImages class="absolute top-0 hidden md:block"></FloatingImages>
     </div>
     <div class="relative z-5 h-[100vh] overflow-hidden bg-[#efe9dc]">
       <DailyCards></DailyCards>
@@ -36,7 +36,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import NavPanel from '../components/NavPanel.vue';
 import SearchBar from '../components/SearchBar.vue';
-import FloatWords from '../components/FloatWords.vue';
+import FloatingImages from '../components/FloatingImages.vue';
 import Footer from '../components/Footer.vue';
 import DailyCards from '../components/DailyCards.vue';
 
