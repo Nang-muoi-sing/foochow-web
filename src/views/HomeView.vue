@@ -24,8 +24,8 @@
       </div>
       <FloatingImages class="absolute top-0 hidden md:block"></FloatingImages>
     </div>
-    <div class="relative z-5 h-[100vh] overflow-hidden bg-[#efe9dc]">
-      <DailyCards></DailyCards>
+    <div class="relative z-5 h-[100vh] overflow-hidden bg-wheat-50">
+      <WordsDeck></WordsDeck>
     </div>
     <Footer class="relative z-10 -mt-[10vh]"></Footer>
   </div>
@@ -38,7 +38,7 @@ import NavPanel from '../components/NavPanel.vue';
 import SearchBar from '../components/SearchBar.vue';
 import FloatingImages from '../components/FloatingImages.vue';
 import Footer from '../components/Footer.vue';
-import DailyCards from '../components/DailyCards.vue';
+import WordsDeck from '../components/WordsDeck.vue';
 
 const isHistoryVisible = ref(false);
 

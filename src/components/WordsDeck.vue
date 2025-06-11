@@ -16,97 +16,31 @@
         @touchstart="onDragStart(index)"
         @touchmove="onDragMove(index, $event)"
         @touchend="onDragEnd(index)"
-        class="h-[60vh] w-[80vw] rounded-xl border-2 border-amber-950 bg-white p-4 select-none"
+        class="border-wheat-200 bg-wheat-100 relative h-[60vh] w-[75vw] rounded-xl border-1 p-4 select-none lg:h-[450px] lg:w-[600px]"
       >
         <div
           class="flex h-1/1 flex-col items-center space-y-5 px-5 pt-5 font-sans"
         >
           <div
-            class="ruby-container flex-1 flex-row-reverse text-5xl font-bold break-all whitespace-normal lg:text-6xl"
-            v-html="makeYngpingRuby(cards[index].text, cards[index].pron)"
-          ></div>
-          <p
-            class="h-[10vh] max-w-lg flex-1 overflow-hidden text-lg text-ellipsis text-zinc-900"
+            class="ruby-container text-rosybrown-800 text-4xl font-bold break-all whitespace-normal md:text-5xl lg:text-6xl"
           >
-            释义：{{ cards[index].expl }}
-          </p>
-          <div class="flex-1 overflow-hidden">
-            <img
-              class="scale-75"
-              src="../assets/logo-daily.png"
-              draggable="false"
-            />
-          </div>
-        </div>
-
-        <!-- <div
-          class="col-start-1 row-span-3 flex items-center justify-center bg-sky-800"
-        >
-          <h2
-            class="text-8xl font-bold tracking-tighter text-zinc-100"
-            style="writing-mode: vertical-lr"
-          >
-            每日一词
-          </h2> -->
-        <!-- 榕拼？ -->
-        <!-- <p class="text-zinc-100 font-semibold" style="writing-mode: vertical-lr">ing ung</p> -->
-        <!-- </div>
-        <div
-          class="col-start-1 row-span-1 grid grid-cols-4 grid-rows-3 gap-x-1 text-center"
-        >
-          <p
-            class="col-span-3 row-span-1 border-4 border-sky-800 text-xl font-bold text-sky-800"
-          >
-            {{ cards[index].year }}年{{ cards[index].month }}月
-          </p>
-          <div
-            class="col-span-3 row-span-2 border-4 border-t-0 border-sky-800 text-8xl/18 font-bold text-sky-800"
-          >
-            {{ cards[index].day }}
-          </div>
-          <p
-            class="col-start-4 col-end-5 row-start-1 row-end-4 border-4 border-t-20 border-sky-800 text-center text-xl/8 font-bold tracking-widest text-sky-800"
-            style="writing-mode: vertical-lr"
-          >
-            {{ cards[index].week }}
-          </p>
-        </div>
-        <div
-          class="col-start-2 col-end-6 row-start-1 row-end-5 border-4 border-sky-800"
-        >
-          <div class="flex flex-col space-y-5 px-5 py-10">
             <ruby
-              class="text-6xl font-bold break-all whitespace-normal"
-              style="ruby-align: center"
               v-html="
                 makeYngpingRubyInner(cards[index].text, cards[index].pron)
               "
+              style="ruby-align: center"
             >
             </ruby>
-            <p class="text-xl text-zinc-900">
-              {{ cards[index].expl }}
-            </p>
-            <div class="flex flex-row items-center space-x-5">
-              <button
-                type="button"
-                class="flex w-fit flex-row items-center space-x-3 rounded-lg bg-sky-700 px-8 py-2 font-medium text-white hover:bg-sky-800 focus:ring-4 focus:ring-sky-300 focus:outline-none dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800"
-              >
-                <span>查阅详情</span
-                ><span class="material-symbols-rounded">arrow_right_alt</span>
-              </button>
-              <span class="material-symbols-rounded text-sky-800">share</span>
-              <span class="material-symbols-rounded text-sky-800"
-                >favorite</span
-              >
-            </div>
           </div>
-        </div> -->
-        <!-- <div
-          class="col-start-5 col-end-6 row-start-3 row-end-5 flex flex-col justify-end"
-        >
-          <img src="../assets/stamp.svg" />
-          <p class="pr-5 pb-5 text-right text-zinc-600">From 蓝尾星团队</p>
-        </div> -->
+          <p
+            class="max-w-lg overflow-hidden text-base text-ellipsis text-rosybrown-800 lg:text-lg"
+          >
+            释义：{{ cards[index].expl }}
+          </p>
+          <div class="absolute bottom-0 min-h-[110px] scale-75 overflow-hidden">
+            <img src="../assets/logo-daily.png" draggable="false" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -279,7 +213,6 @@ const onDragEnd = (index: number): void => {
       // 卡片回到初始位置
       gsap.to(springs[index], {
         x: 0,
-        rot: initialSprings[index].rot,
         scale: 1,
         duration: 0.5,
         ease: 'power2.out',
@@ -294,17 +227,17 @@ onMounted(() => {
   initSprings();
 });
 
-const makeYngpingRuby = (text: string, yngping: string): string => {
+const makeYngpingRubyInner = (text: string, yngping: string): string => {
   const chars = text.trim().split('');
   const charProns = yngping.trim().split(' ');
   //  TODO: <sub>
 
   if (charProns.length !== chars.length) {
-    return `<ruby><span class="rb">${text}</span><rp>(</rp><rt>${makeYngpingSup(yngping)}</rt><rp>)</rp></ruby>`;
+    return `<span class="rb">${text}</span><rp>(</rp><rt>${makeYngpingSup(yngping)}</rt><rp>)</rp>`;
   } else {
     let rubyString = '';
     for (let i = 0; i < chars.length; i++) {
-      rubyString += `<ruby><span class="rb">${chars[i]}</span><rp>(</rp><rt>${makeYngpingSup(charProns[i])}</rt><rp>)</rp></ruby>`;
+      rubyString += `<span class="rb">${chars[i]}</span><rp>(</rp><rt>${makeYngpingSup(charProns[i])}</rt><rp>)</rp>`;
     }
     return rubyString;
   }
@@ -319,31 +252,6 @@ const makeYngpingSup = (yngping: string): string => {
 
 <style scoped>
 .deck > div {
-  /* width: 40vw; */
-  /* max-width: 150px; */
-  /* height: 60vh; */
-  /* max-height: 285px; */
   will-change: transform;
-  /* box-shadow:
-    0 12.5px 100px -10px rgba(50, 50, 73, 0.4),
-    0 10px 10px -10px rgba(50, 50, 73, 0.3); */
 }
-
-.ruby-container > ruby {
-  ruby-align: center;
-}
-
-/* ::v-deep .rb {
-  color: var(--color-white);
-  filter: drop-shadow(5px 5px 0 var(--color-sky-800))
-    drop-shadow(2px 0 0 var(--color-sky-800))
-    drop-shadow(-2px 0 0 var(--color-sky-800))
-    drop-shadow(0 2px 0 var(--color-sky-800))
-    drop-shadow(0 -2px 0 var(--color-sky-800));
-} */
-
-/* ::v-deep rt {
-  font-size: xx-large;
-  color: var(--color-sky-800);
-} */
 </style>
