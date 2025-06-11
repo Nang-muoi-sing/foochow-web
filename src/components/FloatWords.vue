@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-[55vh] w-full overflow-hidden rounded-lg">
+  <div class="h-full w-full overflow-hidden rounded-lg">
     <a
       v-for="(wordImg, index) in imgList"
       :key="index"
@@ -39,11 +39,24 @@ const imgList = [
 // 生成随机位置
 const generateRandomPositions = () => {
   const positions: { x: number; y: number }[] = [];
-  const padding = 10;
+  const padding = { x: 20, y: 10 };
+  const center = { x: 50, y: 20 };
 
   for (let i = 0; i < imgList.length; i++) {
-    const x = Math.random() * (100 - padding);
-    const y = Math.random() * (100 - padding);
+    const x = padding.x + Math.random() * (100 - 2 * padding.x);
+    const y = padding.y + Math.random() * (100 - 2 * padding.y);
+
+    const isOverlapCenter = (() => {
+      const dx = center.x - x;
+      const dy = center.y - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      return distance < 30;
+    })();
+
+    if (isOverlapCenter) {
+      i--;
+      continue;
+    }
 
     const isTooClose = positions.some((pos) => {
       const dx = pos.x - x;
@@ -81,10 +94,10 @@ onMounted(() => {
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) translate(-50%, -50%);
   }
   50% {
-    transform: translateY(-25px);
+    transform: translateY(-25px) translate(-50%, -50%);
   }
 }
 
@@ -93,5 +106,6 @@ onMounted(() => {
   animation:
     fadeIn 1s ease-out forwards var(--animation-delay),
     float 3s ease-in-out infinite calc(1s + var(--animation-delay));
+  transform: translate(-50%, -50%);
 }
 </style>
