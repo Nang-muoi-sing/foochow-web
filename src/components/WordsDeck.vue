@@ -16,7 +16,7 @@
         @touchstart="onDragStart(index)"
         @touchmove="onDragMove(index, $event)"
         @touchend="onDragEnd(index)"
-        class="border-wheat-200 bg-wheat-100 relative h-[60vh] w-[75vw] rounded-xl border-1 p-4 select-none lg:h-[450px] lg:w-[600px]"
+        class="border-wheat-200 bg-wheat-50 relative h-[60vh] w-[75vw] rounded-xl border-1 p-4 select-none lg:h-[450px] lg:w-[600px]"
       >
         <div
           class="flex h-1/1 flex-col items-center space-y-5 px-5 pt-5 font-sans"

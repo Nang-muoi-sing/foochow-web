@@ -2,17 +2,25 @@
   <div class="h-fit" @scroll.native="console.log('scroll')">
     <div class="bg-wheat-50 relative z-10 h-screen overflow-hidden">
       <div class="fixed z-500 h-full w-full" :class="toggleDimmer"></div>
-      <div class="flex flex-row-reverse px-16 py-8">
-        <NavPanel class="w-xs z-510"></NavPanel>
+      <div class="flex justify-center px-16 py-8 md:justify-end">
+        <NavPanel
+          class="z-510 w-xs relative"
+        ></NavPanel>
       </div>
       <div
         class="relative z-510 mx-auto mt-5 flex w-fit flex-col items-center space-y-8 text-center"
       >
-        <div class="pl-10">
+        <div
+          class="pl-10"
+          :style="{
+            transform: `translateY(-${Math.min(scrollY * 1, 200)}px)`,
+            opacity: Math.max(0, 1 - scrollY / 500),
+          }"
+        >
           <img src="../assets/logo-see.png" />
         </div>
         <SearchBar
-          class="w-xs sm:w-sm md:w-md"
+          class="relative w-xs sm:w-sm md:w-md"
           :isHistoryVisible="isHistoryVisible"
           @click="isHistoryVisible = true"
           v-on-click-outside="
@@ -24,7 +32,7 @@
       </div>
       <FloatingImages class="absolute top-0 hidden md:block"></FloatingImages>
     </div>
-    <div class="relative z-5 h-[100vh] overflow-hidden bg-wheat-50">
+    <div class="bg-wheat-100 relative z-5 h-[100vh] overflow-hidden">
       <WordsDeck></WordsDeck>
     </div>
     <Footer class="relative z-10 -mt-[10vh]"></Footer>
@@ -40,9 +48,16 @@ import FloatingImages from '../components/FloatingImages.vue';
 import Footer from '../components/Footer.vue';
 import WordsDeck from '../components/WordsDeck.vue';
 
+const scrollY = ref(0);
+const searchBarFixed = ref(false);
+const navPanelFixed = ref(false);
 const isHistoryVisible = ref(false);
 
 const handleScroll = () => {
+  scrollY.value = window.scrollY;
+  searchBarFixed.value = scrollY.value > 200;
+  navPanelFixed.value = scrollY.value > 300;
+
   isHistoryVisible.value = false;
 };
 

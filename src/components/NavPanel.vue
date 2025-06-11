@@ -1,17 +1,25 @@
 <template>
-  <div class="relative flex rounded-lg bg-white px-6 py-3">
-    <span class="flex-1">
-      <a href="#" class="text-rosybrown-600 font-bold hover:text-rosybrown-800">主页</a>
-    </span>
-    <span class="flex-1">
-      <a href="#" class="text-rosybrown-600 font-bold hover:text-rosybrown-800">入门</a>
-    </span>
-    <span class="flex-1">
-      <a href="#" class="text-rosybrown-600 font-bold hover:text-rosybrown-800">帮助</a>
-    </span>
-    <span>
-      <a href="#" class="text-rosybrown-600 font-bold hover:text-rosybrown-800">关于</a>
-    </span>
+  <div class="flex justify-between rounded-lg bg-white">
+    <div
+      class="hover:bg-wheat-50 text-rosybrown-600 hover:text-rosybrown-800 m-1 rounded-xs px-3 py-1.5 font-bold transition-all ease-in-out"
+    >
+      <a href="#">主页</a>
+    </div>
+    <div
+      class="hover:bg-wheat-50 text-rosybrown-600 hover:text-rosybrown-800 m-1 rounded-xs px-3 py-1.5 font-bold transition-all ease-in-out"
+    >
+      <a href="#">入门</a>
+    </div>
+    <div
+      class="hover:bg-wheat-50 text-rosybrown-600 hover:text-rosybrown-800 m-1 rounded-xs px-3 py-1.5 font-bold transition-all ease-in-out"
+    >
+      <a href="#">帮助</a>
+    </div>
+    <div
+      class="hover:bg-wheat-50 text-rosybrown-600 hover:text-rosybrown-800 m-1 rounded-xs px-3 py-1.5 font-bold transition-all ease-in-out"
+    >
+      <a href="#">关于</a>
+    </div>
   </div>
 </template>
 

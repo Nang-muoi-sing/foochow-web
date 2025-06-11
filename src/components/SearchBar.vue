@@ -1,5 +1,4 @@
 <template>
-  <div class="relative">
     <form @submit.prevent="handleSubmit">
       <div
         class="outline-rosybrown-300 hover:outline-rosybrown-400 flex h-12 flex-row items-center space-x-2 bg-white px-3 outline-2 hover:outline-3"
@@ -57,7 +56,6 @@
         </ul>
       </div>
     </form>
-  </div>
 </template>
 
 <script setup lang="ts">
