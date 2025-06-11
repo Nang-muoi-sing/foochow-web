@@ -5,7 +5,7 @@
     <div
       v-for="(spring, index) in springs"
       :key="index"
-      class="deck absolute flex h-[70vh] w-[80vw] touch-none items-center justify-center will-change-transform"
+      class="deck absolute flex h-full w-full touch-none items-center justify-center will-change-transform"
       :style="{ transform: `translate3d(${spring.x}px, ${spring.y}px, 0)` }"
     >
       <div
@@ -16,12 +16,30 @@
         @touchstart="onDragStart(index)"
         @touchmove="onDragMove(index, $event)"
         @touchend="onDragEnd(index)"
-        class="grid grid-cols-5 grid-rows-4 gap-4 rounded-xl bg-white p-4 select-none shadow-2xl"
-        :style="{
-          transform: `perspective(1500px) rotateX(30deg) rotateY(${spring.rot / 10}deg) rotateZ(${spring.rot}deg) scale(${spring.scale})`,
-        }"
+        class="h-[60vh] w-[80vw] rounded-xl border-2 border-amber-950 bg-white p-4 select-none"
       >
         <div
+          class="flex h-1/1 flex-col items-center space-y-5 px-5 pt-5 font-sans"
+        >
+          <div
+            class="ruby-container flex-1 flex-row-reverse text-5xl font-bold break-all whitespace-normal lg:text-6xl"
+            v-html="makeYngpingRuby(cards[index].text, cards[index].pron)"
+          ></div>
+          <p
+            class="h-[10vh] max-w-lg flex-1 overflow-hidden text-lg text-ellipsis text-zinc-900"
+          >
+            释义：{{ cards[index].expl }}
+          </p>
+          <div class="flex-1 overflow-hidden">
+            <img
+              class="scale-75"
+              src="../assets/logo-daily.png"
+              draggable="false"
+            />
+          </div>
+        </div>
+
+        <!-- <div
           class="col-start-1 row-span-3 flex items-center justify-center bg-sky-800"
         >
           <h2
@@ -29,10 +47,10 @@
             style="writing-mode: vertical-lr"
           >
             每日一词
-          </h2>
-          <!-- 榕拼？ -->
-          <!-- <p class="text-zinc-100 font-semibold" style="writing-mode: vertical-lr">ing ung</p> -->
-        </div>
+          </h2> -->
+        <!-- 榕拼？ -->
+        <!-- <p class="text-zinc-100 font-semibold" style="writing-mode: vertical-lr">ing ung</p> -->
+        <!-- </div>
         <div
           class="col-start-1 row-span-1 grid grid-cols-4 grid-rows-3 gap-x-1 text-center"
         >
@@ -82,13 +100,13 @@
               >
             </div>
           </div>
-        </div>
-        <div
+        </div> -->
+        <!-- <div
           class="col-start-5 col-end-6 row-start-3 row-end-5 flex flex-col justify-end"
         >
           <img src="../assets/stamp.svg" />
           <p class="pr-5 pb-5 text-right text-zinc-600">From 蓝尾星团队</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -150,7 +168,7 @@ const cards = [
     month: '03',
     day: '31',
     week: '星期一',
-    text: '黃秮',
+    text: '黃⿰禾台',
     pron: 'uong53 dai55',
     expl: '◯草本植物，葉子線形，子實淡黃色，比小米稍大，煮熟後有黏性，可以釀酒等。北京話叫“黍子”。 ',
   },
@@ -170,7 +188,6 @@ type Spring = {
   x: number;
   y: number;
   scale: number;
-  rot: number;
 };
 
 // 存储被移除的卡片索引
@@ -180,10 +197,9 @@ const gone = ref(new Set<number>());
 const initialSprings: Spring[] = reactive(
   cards.map(
     (_, i): Spring => ({
-      x: 0,
-      y: i * -4,
+      x: i * 4,
+      y: i * 4,
       scale: 1,
-      rot: -10 + Math.random() * 20,
     })
   )
 );
@@ -278,17 +294,17 @@ onMounted(() => {
   initSprings();
 });
 
-const makeYngpingRubyInner = (text: string, yngping: string): string => {
+const makeYngpingRuby = (text: string, yngping: string): string => {
   const chars = text.trim().split('');
   const charProns = yngping.trim().split(' ');
   //  TODO: <sub>
 
   if (charProns.length !== chars.length) {
-    return `<span class="rb">${text}</span><rp>(</rp><rt>${makeYngpingSup(yngping)}</rt><rp>)</rp>`;
+    return `<ruby><span class="rb">${text}</span><rp>(</rp><rt>${makeYngpingSup(yngping)}</rt><rp>)</rp></ruby>`;
   } else {
     let rubyString = '';
     for (let i = 0; i < chars.length; i++) {
-      rubyString += `<span class="rb">${chars[i]}</span><rp>(</rp><rt>${makeYngpingSup(charProns[i])}</rt><rp>)</rp>`;
+      rubyString += `<ruby><span class="rb">${chars[i]}</span><rp>(</rp><rt>${makeYngpingSup(charProns[i])}</rt><rp>)</rp></ruby>`;
     }
     return rubyString;
   }
@@ -303,9 +319,9 @@ const makeYngpingSup = (yngping: string): string => {
 
 <style scoped>
 .deck > div {
-  width: 921px;
+  /* width: 40vw; */
   /* max-width: 150px; */
-  height: 568px;
+  /* height: 60vh; */
   /* max-height: 285px; */
   will-change: transform;
   /* box-shadow:
@@ -313,17 +329,21 @@ const makeYngpingSup = (yngping: string): string => {
     0 10px 10px -10px rgba(50, 50, 73, 0.3); */
 }
 
-::v-deep .rb {
+.ruby-container > ruby {
+  ruby-align: center;
+}
+
+/* ::v-deep .rb {
   color: var(--color-white);
   filter: drop-shadow(5px 5px 0 var(--color-sky-800))
     drop-shadow(2px 0 0 var(--color-sky-800))
     drop-shadow(-2px 0 0 var(--color-sky-800))
     drop-shadow(0 2px 0 var(--color-sky-800))
     drop-shadow(0 -2px 0 var(--color-sky-800));
-}
+} */
 
-::v-deep rt {
+/* ::v-deep rt {
   font-size: xx-large;
   color: var(--color-sky-800);
-}
+} */
 </style>
