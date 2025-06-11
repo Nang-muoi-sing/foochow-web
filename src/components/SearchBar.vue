@@ -1,65 +1,68 @@
 <template>
-    <form @submit.prevent="handleSubmit">
-      <div
-        class="outline-rosybrown-300 hover:outline-rosybrown-400 flex h-12 flex-row items-center space-x-2 bg-white px-3 outline-2 hover:outline-3"
-        :class="toggleInputFocusStyle"
+  <form @submit.prevent="handleSubmit">
+    <div
+      class="outline-rosybrown-300 hover:outline-rosybrown-400 flex h-12 flex-row items-center space-x-2 bg-white px-3 outline-2 hover:outline-3"
+      :class="toggleInputFocusStyle"
+    >
+      <span
+        class="material-symbols-rounded text-rosybrown-400 hover:text-rosybrown-700 cursor-pointer pl-1"
+        @click="handleSubmit"
+        >search</span
       >
-        <span
-          class="material-symbols-rounded text-rosybrown-400 hover:text-rosybrown-700 cursor-pointer pl-1"
-          @click="handleSubmit"
-          >search</span
+      <input
+        class="text-rosybrown-800 h-full w-full"
+        v-model.trim="searchQuery"
+        @input="filterHistory"
+        @focus="filterHistory"
+      />
+      <ul
+        v-show="isHistoryVisible && filteredHistory.length > 0"
+        class="outline-rosybrown-300 absolute top-full right-0 left-0 rounded-b-md bg-white pt-2 outline"
+      >
+        <li
+          v-for="(history, index) in filteredHistory"
+          :key="index"
+          class="hover:border-l-rosybrown-700 hover:text-rosybrown-700 hover:bg-rosybrown-50 box-border flex flex-row items-center justify-between border-l-3 border-l-transparent px-4 py-1"
         >
-        <input
-          class="text-rosybrown-800 h-full w-full"
-          v-model.trim="searchQuery"
-          @input="filterHistory"
-          @focus="filterHistory"
-        />
-        <ul
+          <div
+            class="flex w-7/8 cursor-pointer flex-row items-center font-sans"
+            @click="selectHistory(index)"
+          >
+            <span
+              class="material-symbols-rounded text-rosybrown-400 w-fit pr-4"
+              style="font-size: 22px"
+              >history</span
+            >
+            <div class="text-rosybrown-600 overflow-hidden text-ellipsis">
+              {{ history }}
+            </div>
+          </div>
+          <div
+            class="text-rosybrown-300 hover:text-rosybrown-500 cursor-pointer text-sm hover:underline"
+            @click.stop="deleteHistory(index)"
+          >
+            删除
+          </div>
+        </li>
+        <li
           v-show="isHistoryVisible && filteredHistory.length > 0"
-          class="outline-rosybrown-300 absolute top-full right-0 left-0 rounded-b-md bg-white pt-2 outline"
+          class="flex flex-row-reverse items-baseline px-4 py-1"
         >
-          <li
-            v-for="(history, index) in filteredHistory"
-            :key="index"
-            class="hover:border-l-rosybrown-700 hover:text-rosybrown-700 box-border flex flex-row items-center justify-between border-l-3 border-l-transparent px-4 py-1 hover:bg-rosybrown-50"
+          <div
+            class="text-rosybrown-300 hover:text-rosybrown-500 cursor-pointer text-xs"
+            @click.stop="clearHistory"
           >
-            <div
-              class="flex w-7/8 cursor-pointer flex-row items-center font-sans"
-              @click="selectHistory(index)"
-            >
-              <span
-                class="material-symbols-rounded text-rosybrown-400 w-fit pr-4"
-                style="font-size: 22px"
-                >history</span
-              >
-              <div class="overflow-hidden text-ellipsis text-rosybrown-600">{{ history }}</div>
-            </div>
-            <div
-              class="text-rosybrown-300 hover:text-rosybrown-500 cursor-pointer text-sm hover:underline"
-              @click.stop="deleteHistory(index)"
-            >
-              删除
-            </div>
-          </li>
-          <li
-            v-show="isHistoryVisible && filteredHistory.length > 0"
-            class="flex flex-row-reverse items-baseline px-4 py-1"
-          >
-            <div
-              class="cursor-pointer text-xs text-rosybrown-300 hover:text-rosybrown-500"
-              @click.stop="clearHistory"
-            >
-              清空历史
-            </div>
-          </li>
-        </ul>
-      </div>
-    </form>
+            清空历史
+          </div>
+        </li>
+      </ul>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { Trie } from '../utils/trie';
 
 const props = defineProps({
@@ -69,6 +72,7 @@ const props = defineProps({
   },
 });
 
+const router = useRouter();
 const searchQuery = ref('');
 const filteredHistory = ref<string[]>([]);
 
@@ -95,6 +99,8 @@ const handleSubmit = () => {
       searchQuery.value = '';
     }
   }
+  // submit test
+  router.push({ path: '/search', query: { word: query } });
 };
 
 const filterHistory = () => {
