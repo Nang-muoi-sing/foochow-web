@@ -87,7 +87,7 @@ onMounted(() => {
     opacity: 0;
   }
   to {
-    opacity: 0.75;
+    opacity: var(--base-opacity, 0.75);
   }
 }
 
@@ -107,5 +107,10 @@ onMounted(() => {
     fadeIn 1s ease-out forwards var(--animation-delay),
     float 3s ease-in-out infinite calc(1s + var(--animation-delay));
   transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.floating-element:hover {
+  --base-opacity: 1;
 }
 </style>
