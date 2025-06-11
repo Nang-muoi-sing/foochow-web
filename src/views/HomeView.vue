@@ -3,7 +3,7 @@
     <div class="bg-wheat-50 relative z-10 h-screen overflow-hidden">
       <div class="fixed z-500 h-full w-full" :class="toggleDimmer"></div>
       <div class="flex flex-row-reverse px-16 py-8">
-        <NavPanel class="w-xs"></NavPanel>
+        <NavPanel class="w-xs z-510"></NavPanel>
       </div>
       <div
         class="relative z-510 mx-auto mt-5 flex w-fit flex-col items-center space-y-8 text-center"
@@ -22,14 +22,11 @@
           "
         ></SearchBar>
       </div>
-      <FloatWords class="absolute -mt-[5vh] hidden md:block"></FloatWords>
+      <FloatWords class="absolute top-0 hidden md:block"></FloatWords>
     </div>
     <div class="relative z-5 h-[100vh] overflow-hidden bg-[#efe9dc]">
-      <!-- <div
-        class="absolute h-[304vh] w-[120vw] -translate-x-[10vw] -translate-y-[20vh] rotate-6 bg-[url(./assets/bg-map.webp)] bg-cover bg-center opacity-50 brightness-110 saturate-40"
-      ></div> -->
+      <DailyCards></DailyCards>
     </div>
-    <!-- footer -->
     <Footer class="relative z-10 -mt-[10vh]"></Footer>
   </div>
 </template>
@@ -41,6 +38,7 @@ import NavPanel from '../components/NavPanel.vue';
 import SearchBar from '../components/SearchBar.vue';
 import FloatWords from '../components/FloatWords.vue';
 import Footer from '../components/Footer.vue';
+import DailyCards from '../components/DailyCards.vue';
 
 const isHistoryVisible = ref(false);
 
