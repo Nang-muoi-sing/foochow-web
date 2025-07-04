@@ -33,7 +33,7 @@
             </ruby>
           </div>
           <p
-            class="max-w-lg overflow-hidden text-base text-ellipsis text-rosybrown-800 lg:text-lg"
+            class="text-rosybrown-800 max-w-lg overflow-hidden text-base text-ellipsis lg:text-lg"
           >
             释义：{{ cards[index].expl }}
           </p>
@@ -47,8 +47,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue';
 import gsap from 'gsap';
+import { onMounted, reactive, ref } from 'vue';
+import { makeYngpingRubyInner } from '../utils/typography';
 
 // 卡片数据
 const cards = [
@@ -226,28 +227,6 @@ const onDragEnd = (index: number): void => {
 onMounted(() => {
   initSprings();
 });
-
-const makeYngpingRubyInner = (text: string, yngping: string): string => {
-  const chars = text.trim().split('');
-  const charProns = yngping.trim().split(' ');
-  //  TODO: <sub>
-
-  if (charProns.length !== chars.length) {
-    return `<span class="rb">${text}</span><rp>(</rp><rt>${makeYngpingSup(yngping)}</rt><rp>)</rp>`;
-  } else {
-    let rubyString = '';
-    for (let i = 0; i < chars.length; i++) {
-      rubyString += `<span class="rb">${chars[i]}</span><rp>(</rp><rt>${makeYngpingSup(charProns[i])}</rt><rp>)</rp>`;
-    }
-    return rubyString;
-  }
-};
-
-const makeYngpingSup = (yngping: string): string => {
-  const tone = yngping.match(/\d+$/);
-  const yngpingLetter = yngping.replace(/\d+$/, '');
-  return tone ? `${yngpingLetter}<sup>${tone}</sup>` : yngping;
-};
 </script>
 
 <style scoped>
