@@ -2,7 +2,7 @@
   <PageContent>
     <div class="bg-wheat-100 mt-5 mb-8 rounded-lg px-8 py-6">
       <div
-        class="ruby-container text-rosybrown-800 text-5xl font-bold break-all whitespace-normal"
+        class="ruby-container text-rosybrown-800 text-4xl font-bold break-all whitespace-normal md:text-5xl"
       >
         <ruby
           v-html="
@@ -62,7 +62,7 @@
         class="text-rosybrown-800 mt-2 mb-5 rounded-lg bg-white px-8 py-6"
       >
         <div class="items-baseline">
-          <span class="text-rosybrown-800 mr-2 text-4xl font-bold">
+          <span class="text-rosybrown-800 mr-2 text-3xl font-bold sm:text-4xl">
             {{ processedWordData.feng.text }}
           </span>
           <span class="text-rosybrown-500 text-xl">
@@ -169,7 +169,7 @@
               <th class="py-1 text-white">读音</th>
               <th class="py-1 text-white">连读</th>
               <th class="py-1 text-white">地区</th>
-              <th class="py-1 text-white">来源</th>
+              <th class="hidden py-1 text-white md:block">来源</th>
             </tr>
           </thead>
           <tbody class="text-center">
@@ -178,12 +178,16 @@
               :key="index"
             >
               <td class="py-1.5">{{ pron.pron }}</td>
-              <td class="flex items-center justify-center py-2">
+              <td class="flex items-center justify-center py-2 md:hidden">
+                <Badge v-if="pron.isSandhi">连</Badge>
+                <Badge v-else>本</Badge>
+              </td>
+              <td class="hidden items-center justify-center py-2 md:flex">
                 <Badge v-if="pron.isSandhi">连读音</Badge>
                 <Badge v-else>本字音</Badge>
               </td>
               <td class="py-1.5">{{ pron.location }}</td>
-              <td class="py-1.5">{{ pron.origin }}</td>
+              <td class="hidden py-1.5 md:block">{{ pron.origin }}</td>
             </tr>
           </tbody>
         </table>
@@ -348,7 +352,7 @@ const wordData = {
         sent: ['～好看。', '～快。', '～清楚。'],
       },
     ],
-    comment: 'SeeDict 对冯书注……',
+    comment: 'SeeDict 对释义注……',
     synonym: '近义词……',
     antonym: '反义词……',
   },
@@ -423,12 +427,12 @@ const wordData = {
         cikFinal: '賓',
         cikInitial: '曾',
         cikAnnotation: '竭～',
-        liAnnotateCik: '给出的校注……',
+        liAnnotateCik: '原书给出的校注……',
         liAnnotateCikOrder: 12,
         lingFinal: '之',
         lingInitial: '京',
         lingAnnotation: '竭～',
-        comment: 'SeeDict 给出的校正',
+        comment: 'SeeDict 给出的注释……',
       },
       {
         text: '尽',
@@ -439,7 +443,7 @@ const wordData = {
         lingFinal: '之',
         lingInitial: '京',
         lingAnnotation: '竭～',
-        liAnnotateLing: '给出的校注……',
+        liAnnotateLing: '原书给出的校注……',
         liAnnotateLingOrder: 14,
       },
       {
@@ -450,7 +454,7 @@ const wordData = {
         cikAnnotation: '竭～',
         liAnnotateCik: '只出现在戚书中的条目',
         liAnnotateCikOrder: 16,
-        comment: 'SeeDict 给出的校正',
+        comment: 'SeeDict 给出的注释……',
       },
     ],
   },

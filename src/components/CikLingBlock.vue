@@ -1,9 +1,11 @@
 <template>
-  <div class="text-rosybrown-800 grid grid-cols-12 grid-rows-2">
-    <div class="col-span-1 row-span-2 content-center text-4xl font-bold">
+  <div class="text-rosybrown-800 grid grid-cols-12 grid-rows-4 md:grid-rows-2">
+    <div
+      class="col-span-2 row-span-4 content-center text-3xl sm:text-4xl font-bold md:col-span-1 md:row-span-2"
+    >
       {{ data.text }}
     </div>
-    <div class="col-span-11 row-span-1 text-lg">
+    <div class="col-span-10 row-span-2 text-lg md:col-span-11 md:row-span-1">
       <SeeSymbol
         v-if="data.cikFinal"
         icon="戚书"
@@ -11,16 +13,18 @@
       >
         {{ data.cikInitial }}<span class="text-wheat-400 mr-1 text-sm">聲</span
         >{{ data.cikFinal }}<span class="text-wheat-400 mr-1 text-sm">韻</span
-        >{{ data.tone }}<span class="text-wheat-400 mr-1 text-sm">調</span
+        >{{ data.tone }}<span class="text-wheat-400 mr-3 text-sm">調</span
         ><template v-if="data.cikAnnotation"
-          ><span class="text-wheat-400">&emsp;{{ data.cikAnnotation }}</span
-          ><Badge class="ml-1 inline-block" v-if="data.liAnnotateCik"
-            >{{ data.cikFinal }} {{ data.liAnnotateCikOrder }}</Badge
+          ><span class="text-wheat-400 inline-block w-full md:inline md:w-fit"
+            >{{ data.cikAnnotation
+            }}<Badge class="ml-1" v-if="data.liAnnotateCik"
+              >{{ data.cikFinal }} {{ data.liAnnotateCikOrder }}</Badge
+            ></span
           ></template
         >
       </SeeSymbol>
     </div>
-    <div class="col-span-8 row-span-1 text-lg">
+    <div class="col-span-10 row-span-2 text-lg md:col-span-11 md:row-span-1">
       <SeeSymbol
         v-if="data.lingFinal"
         icon="林书"
@@ -28,11 +32,13 @@
       >
         {{ data.lingInitial }}<span class="text-wheat-400 mr-1 text-sm">聲</span
         >{{ data.lingFinal }}<span class="text-wheat-400 mr-1 text-sm">韻</span
-        >{{ data.tone }}<span class="text-wheat-400 mr-1 text-sm">調</span
+        >{{ data.tone }}<span class="text-wheat-400 mr-3 text-sm">調</span
         ><template v-if="data.lingAnnotation"
-          ><span class="text-wheat-400">&emsp;{{ data.lingAnnotation }}</span
-          ><Badge class="ml-1 inline-block" v-if="data.liAnnotateLing"
-            >{{ data.lingFinal }} {{ data.liAnnotateLingOrder }}</Badge
+          ><span class="text-wheat-400 inline-block w-full md:inline md:w-fit"
+            >{{ data.lingAnnotation
+            }}<Badge class="ml-1 inline-block" v-if="data.liAnnotateLing"
+              >{{ data.lingFinal }} {{ data.liAnnotateLingOrder }}</Badge
+            ></span
           ></template
         >
       </SeeSymbol>

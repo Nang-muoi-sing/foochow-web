@@ -6,7 +6,7 @@
       style="min-height: calc(100vh - 130px - var(--spacing) * 56)"
     >
       <!-- 内联样式暂时没有优雅的方法 -->
-      <div class="w-2xl mx-auto">
+      <div class="mx-auto w-xs sm:w-md md:w-2xl lg:w-3xl">
         <slot></slot>
       </div>
     </div>
