@@ -1,1 +1,0 @@
-import{d as a,c as s,a as o,b as t,e as n,F as r,o as c}from"./index-DyYCLRJ6.js";const _=a({__name:"AboutView",setup(l){return(m,e)=>(c(),s(r,null,[o(n,{class:"absolute z-900"}),e[0]||(e[0]=t("div",{class:"h-screen"},"Hello, about.",-1))],64))}});export{_ as default};
