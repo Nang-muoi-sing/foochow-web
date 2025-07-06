@@ -1,12 +1,23 @@
 <template>
-  <form @submit.prevent="handleSubmit">
+  <div>
     <div
-      class="outline-rosybrown-300 hover:outline-rosybrown-400 flex h-12 flex-row items-center space-x-2 bg-white px-3 outline-2 hover:outline-3"
+      class="fixed top-0 left-0 z-50 h-screen w-screen"
+      :class="toggleDimmer"
+    ></div>
+    <form
+      class="outline-rosybrown-300 hover:outline-rosybrown-400 relative z-100 flex h-12 flex-row items-center space-x-2 bg-white px-3 outline-2 hover:outline-3"
       :class="toggleInputFocusStyle"
+      @submit.prevent="handleSubmit"
+      @click="onFormClick"
+      v-on-click-outside="
+        () => {
+          isHistoryVisible = false;
+        }
+      "
     >
       <span
         class="material-symbols-rounded text-rosybrown-400 hover:text-rosybrown-700 cursor-pointer pl-1"
-        @click="handleSubmit"
+        @click.stop="handleSubmit"
         >search</span
       >
       <input
@@ -26,7 +37,7 @@
         >
           <div
             class="flex w-7/8 cursor-pointer flex-row items-center font-sans"
-            @click="selectHistory(index)"
+            @click.stop="selectHistory(index)"
           >
             <span
               class="material-symbols-rounded text-rosybrown-400 w-fit pr-4"
@@ -56,25 +67,33 @@
           </div>
         </li>
       </ul>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { vOnClickOutside } from '@vueuse/components';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Trie } from '../utils/trie';
-
-const props = defineProps({
-  isHistoryVisible: {
-    type: Boolean,
-    default: false,
-  },
-});
 
 const router = useRouter();
 const searchQuery = ref('');
 const filteredHistory = ref<string[]>([]);
+const isHistoryVisible = ref(false);
+const isInputFocused = ref(false); // 新增：跟踪输入框焦点状态
+
+const handleScroll = () => {
+  isHistoryVisible.value = false;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 
 const deserializeTrie = (json: string | null) => {
   try {
@@ -89,7 +108,6 @@ const trieHistory = deserializeTrie(localStorage.getItem('searchHistory'));
 
 const handleSubmit = () => {
   const query = searchQuery.value;
-  // const maxHistoryLength = 50;
 
   if (query) {
     trieHistory.insert(query);
@@ -99,11 +117,14 @@ const handleSubmit = () => {
       searchQuery.value = '';
     }
   }
-  // submit test
+
+  isHistoryVisible.value = false;
+  isInputFocused.value = false;
   router.push({ path: '/search', query: { word: query } });
 };
 
 const filterHistory = () => {
+  isHistoryVisible.value = true;
   const query = searchQuery.value;
   const matchedHistory = trieHistory.findWords(query);
   if (matchedHistory.length < 2) {
@@ -136,10 +157,23 @@ const clearHistory = () => {
   localStorage.removeItem('searchHistory');
 };
 
+const onFormClick = (event: MouseEvent) => {
+  if ((event.target as HTMLElement).tagName === 'INPUT') {
+    isHistoryVisible.value = true;
+    isInputFocused.value = true;
+  }
+};
+
 const toggleInputFocusStyle = computed(() => {
-  return props.isHistoryVisible && filteredHistory.value.length > 0
+  return isHistoryVisible.value && filteredHistory.value.length > 0
     ? ['rounded-b-none', 'rounded-t-[24px]']
     : ['rounded-[3rem]'];
+});
+
+const toggleDimmer = computed(() => {
+  return isHistoryVisible.value
+    ? ['backdrop-blur-xs', 'backdrop-brightness-90']
+    : ['hidden'];
 });
 </script>
 

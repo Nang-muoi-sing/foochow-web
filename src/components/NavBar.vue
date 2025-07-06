@@ -1,80 +1,82 @@
 <template>
-  <nav class="flex flex-row items-center justify-between gap-5 px-16 py-8">
-    <div class="hidden min-w-35 md:block">
-      <img src="../assets/logo.png" />
-    </div>
-    <SearchBar class="w-xs sm:w-sm md:w-md"></SearchBar>
-    <NavPanel class="hidden w-xs lg:flex"></NavPanel>
-    <button
-      class="text-rosybrown-600 hover:text-rosybrown-800 flex cursor-pointer items-center rounded-md p-2 focus:outline-none lg:hidden"
-      @click="isSidebarOpen = true"
-    >
-      <span class="material-symbols-rounded w-fit" style="font-size: 36px"
-        >menu</span
-      >
-    </button>
-  </nav>
-
-  <div
-    class="fixed inset-0 z-500 flex lg:hidden"
-    :class="{ hidden: !isSidebarOpen }"
-  >
-    <div
-      class="fixed inset-0 backdrop-blur-xs backdrop-brightness-90 transition-all duration-500 ease-in-out"
-      @click="isSidebarOpen = false"
-    ></div>
-
-    <div
-      class="bg-wheat-50 absolute top-0 right-0 h-full w-full max-w-xs transform flex-col transition-transform duration-300 ease-in-out"
-      :class="{
-        'translate-x-full': !isSidebarOpen,
-        'translate-x-0': isSidebarOpen,
-      }"
-    >
+  <div>
+    <nav class="flex flex-row items-center justify-between gap-5 px-16 py-8">
+      <RouterLink :to="{ name: 'home' }" class="z-100 hidden min-w-35 md:block">
+        <img src="../assets/logo.png" />
+      </RouterLink>
+      <SearchBar class="w-xs sm:w-sm md:w-md"></SearchBar>
+      <NavPanel class="z-100 hidden w-xs lg:flex"></NavPanel>
       <button
         class="text-rosybrown-600 hover:text-rosybrown-800 flex cursor-pointer items-center rounded-md p-2 focus:outline-none lg:hidden"
-        @click="isSidebarOpen = false"
+        @click="isSidebarOpen = true"
       >
         <span class="material-symbols-rounded w-fit" style="font-size: 36px"
           >menu</span
         >
       </button>
+    </nav>
+
+    <div
+      class="fixed inset-0 z-500 flex lg:hidden"
+      :class="{ hidden: !isSidebarOpen }"
+    >
+      <div
+        class="fixed inset-0 backdrop-blur-xs backdrop-brightness-90 transition-all duration-500 ease-in-out"
+        @click="isSidebarOpen = false"
+      ></div>
 
       <div
-        class="flex w-full flex-col items-center justify-center px-2 py-4 font-sans text-lg"
+        class="bg-wheat-50 absolute top-0 right-0 h-full w-full max-w-xs transform flex-col transition-transform duration-300 ease-in-out"
+        :class="{
+          'translate-x-full': !isSidebarOpen,
+          'translate-x-0': isSidebarOpen,
+        }"
       >
-        <img class="mb-8" src="../assets/logo.png" draggable="false" />
-        <div
-          class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
+        <button
+          class="text-rosybrown-600 hover:text-rosybrown-800 flex cursor-pointer items-center rounded-md p-2 focus:outline-none lg:hidden"
+          @click="isSidebarOpen = false"
         >
-          <RouterLink :to="{ name: 'home' }" class="inline-flex w-full"
-            ><span class="material-symbols-rounded w-fit">home</span
-            >&ensp;主页</RouterLink
+          <span class="material-symbols-rounded w-fit" style="font-size: 36px"
+            >menu</span
           >
-        </div>
+        </button>
+
         <div
-          class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
+          class="flex w-full flex-col items-center justify-center px-2 py-4 font-sans text-lg"
         >
-          <a class="inline-flex w-full" href="#"
-            ><span class="material-symbols-rounded w-fit">school</span
-            >&ensp;入门</a
+          <img class="mb-8" src="../assets/logo.png" draggable="false" />
+          <div
+            class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
           >
-        </div>
-        <div
-          class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
-        >
-          <a class="inline-flex w-full" href="#"
-            ><span class="material-symbols-rounded w-fit">help</span
-            >&ensp;帮助</a
+            <RouterLink :to="{ name: 'home' }" class="inline-flex w-full"
+              ><span class="material-symbols-rounded w-fit">home</span
+              >&ensp;主页</RouterLink
+            >
+          </div>
+          <div
+            class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
           >
-        </div>
-        <div
-          class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
-        >
-          <a class="inline-flex w-full" href="#"
-            ><span class="material-symbols-rounded w-fit">crowdsource</span
-            >&ensp;关于</a
+            <a class="inline-flex w-full" href="#"
+              ><span class="material-symbols-rounded w-fit">school</span
+              >&ensp;入门</a
+            >
+          </div>
+          <div
+            class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
           >
+            <a class="inline-flex w-full" href="#"
+              ><span class="material-symbols-rounded w-fit">help</span
+              >&ensp;帮助</a
+            >
+          </div>
+          <div
+            class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
+          >
+            <a class="inline-flex w-full" href="#"
+              ><span class="material-symbols-rounded w-fit">crowdsource</span
+              >&ensp;关于</a
+            >
+          </div>
         </div>
       </div>
     </div>
