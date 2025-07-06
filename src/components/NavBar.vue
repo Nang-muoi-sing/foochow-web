@@ -47,29 +47,33 @@
         <div
           class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
         >
-          <a class="inline-flex w-full" href="#"
-            ><span class="material-symbols-rounded w-fit">home</span>&ensp;主页</a
+          <RouterLink :to="{ name: 'home' }" class="inline-flex w-full"
+            ><span class="material-symbols-rounded w-fit">home</span
+            >&ensp;主页</RouterLink
           >
         </div>
         <div
           class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
         >
           <a class="inline-flex w-full" href="#"
-            ><span class="material-symbols-rounded w-fit">school</span>&ensp;入门</a
+            ><span class="material-symbols-rounded w-fit">school</span
+            >&ensp;入门</a
           >
         </div>
         <div
           class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
         >
           <a class="inline-flex w-full" href="#"
-            ><span class="material-symbols-rounded w-fit">help</span>&ensp;帮助</a
+            ><span class="material-symbols-rounded w-fit">help</span
+            >&ensp;帮助</a
           >
         </div>
         <div
           class="hover:bg-wheat-100 text-rosybrown-600 hover:text-rosybrown-800 m-1 w-full content-center rounded-xs px-3 py-1.5 align-middle font-bold transition-all ease-in-out"
         >
           <a class="inline-flex w-full" href="#"
-            ><span class="material-symbols-rounded w-fit">crowdsource</span>&ensp;关于</a
+            ><span class="material-symbols-rounded w-fit">crowdsource</span
+            >&ensp;关于</a
           >
         </div>
       </div>
