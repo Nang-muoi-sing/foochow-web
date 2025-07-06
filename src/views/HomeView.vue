@@ -46,6 +46,7 @@ const handleScroll = () => {
 };
 
 onMounted(() => {
+  document.title = "米时典 SeeDict"
   window.addEventListener('scroll', handleScroll);
 });
 

@@ -40,11 +40,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onBeforeUpdate, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
 import { makeYngpingRubyInner } from '../utils/typography';
+
 const route = useRoute();
+
+onMounted(() => {
+  document.title = route.query.word
+    ? `${route.query.word} - 检索`
+    : `米时典 SeeDict - 检索`;
+});
+
+onBeforeUpdate(() => {
+  document.title = route.query.word
+    ? `${route.query.word} - 检索`
+    : `米时典 SeeDict - 检索`;
+});
 
 const refMap: Record<string, string> = {
   cikling: '戚林八音校注',

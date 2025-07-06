@@ -273,18 +273,30 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onBeforeUpdate, onMounted } from 'vue';
 import Badge from '../components/Badge.vue';
+import CikLingBlock from '../components/CikLingBlock.vue';
 import ExplanationBlock from '../components/ExplanationBlock.vue';
 import PageContent from '../components/PageContent.vue';
 import SeeSymbol from '../components/SeeSymbol.vue';
+import SideBar from '../components/SideBar.vue';
 import Subtitle from '../components/Subtitle.vue';
 import {
   makeYngpingRubyInner,
   replaceChineseQuotes,
 } from '../utils/typography';
-import CikLingBlock from '../components/CikLingBlock.vue';
-import { computed } from 'vue';
-import SideBar from '../components/SideBar.vue';
+
+onMounted(() => {
+  document.title = processedWordData.value.seedict.text
+    ? `${processedWordData.value.seedict.text} - 词汇`
+    : `米时典 SeeDict - 词汇`;
+});
+
+onBeforeUpdate(() => {
+  document.title = processedWordData.value.seedict.text
+    ? `${processedWordData.value.seedict.text} - 词汇`
+    : `米时典 SeeDict - 词汇`;
+});
 
 const processedWordData = computed(() => {
   const hasComment = wordData.cikling.ciklingEntries.some(
