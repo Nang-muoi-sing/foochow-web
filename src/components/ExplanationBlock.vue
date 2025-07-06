@@ -41,7 +41,7 @@ const toggleMode = () => {
 // 替换文本中的 {A,B} 格式
 const replaceToggleText = (text: string): string => {
   const regex = /\{([^,]+),([^}]+)\}/g;
-  return text.replace(regex, (match, first, second) => {
+  return text.replace(regex, (_, first, second) => {
     return currentGlyph.value === 'first' ? first : second;
   });
 };

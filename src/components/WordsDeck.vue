@@ -180,7 +180,6 @@ const onDragMove = (index: number, event: MouseEvent | TouchEvent): void => {
     movementX.value = clientX - startX.value;
     // 更新卡片的 x 位置和旋转角度
     springs[index].x = movementX.value;
-    springs[index].rot = movementX.value / 100;
   }
 };
 
