@@ -1,16 +1,22 @@
 <template>
-  <!-- <p>
-    <strong>Current route path:</strong> {{ $route.fullPath }}
-  </p> -->
   <RouterView />
 </template>
 
 <script setup lang="ts">
+import { useSessionStorage } from '@vueuse/core';
 import { initFlowbite } from 'flowbite';
-import { onMounted } from 'vue';
-// import HomeView from './views/HomeView.vue';
-// import DailyCards from './components/DailyCards.vue';
-// import NavBar from './components/NavBar.vue';
+import { onBeforeMount, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const redirect = useSessionStorage('redirect', '');
+
+onBeforeMount(async () => {
+  if (redirect.value) {
+    await router.push(redirect.value);
+    redirect.value = '';
+  }
+});
 onMounted(() => {
   initFlowbite();
 });
