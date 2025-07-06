@@ -5,7 +5,7 @@
     <div
       v-for="(spring, index) in springs"
       :key="index"
-      class="deck absolute flex h-full w-full touch-none items-center justify-center will-change-transform"
+      class="deck absolute flex touch-none items-center justify-center will-change-transform"
       :style="{ transform: `translate3d(${spring.x}px, ${spring.y}px, 0)` }"
     >
       <div
@@ -197,7 +197,6 @@ const onDragEnd = (index: number): void => {
       // 卡片移除动画
       gsap.to(springs[index], {
         x: (window.innerWidth + 200) * dir,
-        rot: dir * 30 * velocity,
         scale: 0.2,
         duration: 0.5,
         ease: 'power2.out',
