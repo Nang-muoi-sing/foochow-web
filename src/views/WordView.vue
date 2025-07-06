@@ -1,4 +1,5 @@
 <template>
+  <SideBar class="hidden 2xl:block"></SideBar>
   <PageContent>
     <div class="bg-wheat-100 mt-5 mb-8 rounded-lg px-8 py-6">
       <div
@@ -19,7 +20,7 @@
     </div>
 
     <template v-if="processedWordData.seedict.expls.length > 0">
-      <Subtitle>本站释义</Subtitle>
+      <Subtitle text="本站释义"></Subtitle>
       <div class="text-rosybrown-800 mt-2 mb-5 rounded-lg bg-white px-8 py-6">
         <ExplanationBlock
           :explanations="processedWordData.seedict.expls"
@@ -56,7 +57,7 @@
     </template>
 
     <template v-if="processedWordData.feng || processedWordData.cikling">
-      <Subtitle>辞书释义</Subtitle>
+      <Subtitle text="辞书释义"></Subtitle>
       <div
         v-if="processedWordData.feng"
         class="text-rosybrown-800 mt-2 mb-5 rounded-lg bg-white px-8 py-6"
@@ -159,7 +160,7 @@
     </template>
 
     <template v-if="processedWordData.seedict.prons.length > 0">
-      <Subtitle>各地方音</Subtitle>
+      <Subtitle text="各地方音"></Subtitle>
       <div
         class="text-rosybrown-800 mt-2 mb-5 overflow-hidden rounded-lg bg-white"
       >
@@ -202,7 +203,7 @@
     </template>
 
     <template v-if="processedWordData.seedict.phonetics">
-      <Subtitle>注音一览</Subtitle>
+      <Subtitle text="注音一览"></Subtitle>
       <div
         class="text-rosybrown-800 mt-2 mb-5 flex flex-wrap gap-3 rounded-lg bg-white px-8 py-6"
       >
@@ -233,7 +234,7 @@
     </template>
 
     <template v-if="processedWordData.seedict.glyphs.length > 0">
-      <Subtitle>用字一览</Subtitle>
+      <Subtitle text="用字一览"></Subtitle>
       <div
         class="text-rosybrown-800 mt-2 mb-5 overflow-hidden rounded-lg bg-white"
       >
@@ -283,6 +284,7 @@ import {
 } from '../utils/typography';
 import CikLingBlock from '../components/CikLingBlock.vue';
 import { computed } from 'vue';
+import SideBar from '../components/SideBar.vue';
 
 const processedWordData = computed(() => {
   const hasComment = wordData.cikling.ciklingEntries.some(
