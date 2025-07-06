@@ -2,7 +2,7 @@
   <div class="h-fit" @scroll.native="console.log('scroll')">
     <div class="bg-wheat-50 relative z-10 h-screen overflow-hidden">
       <div class="fixed z-500 h-full w-full" :class="toggleDimmer"></div>
-      <div class="flex justify-center px-16 py-8 md:justify-end">
+      <div class="flex justify-center px-4 md:px-16 py-8 md:justify-end">
         <NavPanel
           class="z-510 w-xs relative"
         ></NavPanel>

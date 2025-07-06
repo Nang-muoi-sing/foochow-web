@@ -53,7 +53,7 @@ const parseNestedExplanations = (
   explanations: Node[],
   path: number[] = []
 ): string => {
-  return `<ol class="list-none ${path.length === 0 ? 'pl-0' : 'pl-6'}">${explanations
+  return `<ol class="list-none ${path.length === 0 ? 'pl-0' : 'pl-2 md:pl-6'}">${explanations
     .map((item, index) => {
       const currentPath = [...path, index + 1];
       const lexicalIcon = item.lexical
@@ -73,7 +73,7 @@ const parseNestedExplanations = (
 
       ${
         item.sent?.length
-          ? `<ul class="list-none pl-6 mt-1 space-y-1">${item.sent
+          ? `<ul class="list-none pl-2 md:pl-6 mt-1 space-y-1">${item.sent
               .map((sent) => {
                 // 替换例句中的 {A,B} 格式
                 const processedSent = replaceChineseQuotes(
