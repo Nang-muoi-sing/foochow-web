@@ -1,0 +1,1 @@
+import{N as a}from"./NavBar-T4TJJvHl.js";import{h as o,j as t,y as s,m as r,F as n,l}from"./index-ChSxPI4j.js";import"./SearchBar-Cf_0RnwK.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const d=o({__name:"AboutView",setup(m){return(p,e)=>(l(),t(n,null,[s(a,{class:"absolute z-900"}),e[0]||(e[0]=r("div",{class:"h-screen"},"Hello, about.",-1))],64))}});export{d as default};
