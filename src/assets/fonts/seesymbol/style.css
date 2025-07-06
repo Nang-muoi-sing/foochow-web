@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'seesymbol';
+  src:  url('fonts/seesymbol.eot?d5jmat');
+  src:  url('fonts/seesymbol.eot?d5jmat#iefix') format('embedded-opentype'),
+    url('fonts/seesymbol.ttf?d5jmat') format('truetype'),
+    url('fonts/seesymbol.woff?d5jmat') format('woff'),
+    url('fonts/seesymbol.svg?d5jmat#seesymbol') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="seeicon-"], [class*=" seeicon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'seesymbol' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.seeicon-v:before {
+  content: "\e900";
+}
+.seeicon-adv:before {
+  content: "\e901";
+}
+.seeicon-pron:before {
+  content: "\e902";
+}
+.seeicon-n:before {
+  content: "\e903";
+}
+.seeicon-adj:before {
+  content: "\e904";
+}
+.seeicon-comment:before {
+  content: "\e905";
+}
+.seeicon-correct:before {
+  content: "\e906";
+}
+.seeicon-synonym:before {
+  content: "\e908";
+}
+.seeicon-antonym:before {
+  content: "\e909";
+}
+.seeicon-cik:before {
+  content: "\e90a";
+}
+.seeicon-ling:before {
+  content: "\e907";
+}
