@@ -70,9 +70,3 @@ onMounted(() => {
   });
 });
 </script>
-
-<style scoped>
-:deep(html) {
-  scroll-behavior: smooth;
-}
-</style>

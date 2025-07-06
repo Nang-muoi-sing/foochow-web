@@ -26,4 +26,8 @@ onMounted(() => {
 body {
   background-color: gainsboro;
 }
+
+html {
+  scroll-behavior: smooth;
+}
 </style>
