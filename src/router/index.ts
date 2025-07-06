@@ -12,6 +12,11 @@ const routes = [
     component: () => import('../views/SearchView.vue'),
   },
   {
+    path: '/word',
+    name: 'word',
+    component: () => import('../views/WordView.vue'),
+  },
+  {
     path: '/resource',
     name: 'resource',
     component: () => import('../views/ResourceView.vue'),
