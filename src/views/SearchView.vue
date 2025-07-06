@@ -6,15 +6,19 @@
       查询：{{ route.query.word ?? '' }}
     </div>
 
-    <a class="block" href="#">
-      <div
-        class="bg-wheat-100 my-5 px-5 py-4"
-        v-for="card in processedCards"
-        :key="card.id"
-      >
-        <div class="flex flex-wrap gap-2 justify-end text-sm text-wheat-500">
+    <router-link
+      class="block"
+      :to="{ name: 'word', query: { id: card.id } }"
+      v-for="card in processedCards"
+      :key="card.id"
+    >
+      <div class="bg-wheat-100 my-5 px-5 py-4">
+        <div class="text-wheat-500 flex flex-wrap justify-end gap-2 text-sm">
           <span v-for="ref in card.refsSorted" class="flex w-fit items-center"
-            ><span class="material-symbols-rounded w-fit" style="font-size: 20px;">book_2</span
+            ><span
+              class="material-symbols-rounded w-fit"
+              style="font-size: 20px"
+              >book_2</span
             >{{ refMap[ref] ?? '' }}</span
           >
         </div>
@@ -30,16 +34,16 @@
           </ruby>
         </div>
         <p class="text-wheat-600">{{ card.brief }}</p>
-      </div></a
+      </div></router-link
     >
   </PageContent>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
 import { makeYngpingRubyInner } from '../utils/typography';
-import { computed } from 'vue';
 const route = useRoute();
 
 const refMap: Record<string, string> = {

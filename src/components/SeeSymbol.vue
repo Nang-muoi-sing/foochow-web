@@ -1,7 +1,8 @@
 <template>
   <p>
     <span
-      class="seeicon- mr-1 inline-block align-text-bottom"
+      class="seeicon- mr-1 align-text-bottom"
+      :class="props.iconClass"
       style="font-size: 20px"
       >{{ props.icon }}</span
     >
@@ -14,5 +15,6 @@ import { defineProps } from 'vue';
 
 const props = defineProps<{
   icon: string;
+  iconClass?: string;
 }>();
 </script>

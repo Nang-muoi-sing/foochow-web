@@ -23,3 +23,9 @@ export const makeYngpingSup = (yngping: string): string => {
   const yngpingLetter = yngping.replace(/\d+$/, '');
   return tone ? `${yngpingLetter}<sup>${tone}</sup>` : yngping;
 };
+
+export const replaceChineseQuotes = (text: string): string => {
+  return text
+    .replace(/“/g, '「') // 左引号“ → 「
+    .replace(/”/g, '」'); // 右引号” → 」
+};
