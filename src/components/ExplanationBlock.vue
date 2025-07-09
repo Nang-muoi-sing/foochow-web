@@ -16,22 +16,16 @@
 <script setup lang="ts">
 import { computed, defineProps, ref } from 'vue';
 import { replaceChineseQuotes } from '../utils/typography';
+import type { FengExplNode } from '../utils/typing';
 
 interface Props {
-  explanations: Node[];
+  explanations: FengExplNode[];
   toggleButton?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   toggleButton: false,
 });
-
-interface Node {
-  expl: string;
-  lexical?: string;
-  sent?: string[];
-  node?: Node[];
-}
 
 const currentGlyph = ref<'first' | 'second'>('first');
 const toggleMode = () => {
@@ -50,7 +44,7 @@ const replaceToggleText = (text: string): string => {
 const generateNumber = (path: number[]): string => path.join('.') + '. ';
 
 const parseNestedExplanations = (
-  explanations: Node[],
+  explanations: FengExplNode[],
   path: number[] = []
 ): string => {
   return `<ol class="list-none ${path.length === 0 ? 'pl-0' : 'pl-2 md:pl-6'}">${explanations
