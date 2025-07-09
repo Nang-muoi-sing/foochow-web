@@ -33,8 +33,9 @@ const routes = [
   },
 ];
 
+const base = import.meta.env.VITE_BASE_URL || '/';
 const router = createRouter({
-  history: createWebHistory('/foochow-web'),
+  history: createWebHistory(base),
   routes,
 });
 

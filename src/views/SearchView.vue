@@ -3,121 +3,132 @@
     <div
       class="bg-wheat-300 mb-5 w-fit rounded-lg px-2 py-1 text-xl text-white"
     >
-      查询：{{ route.query.word ?? '' }}
+      查询：{{ route.query.q ?? '' }}
     </div>
-
-    <router-link
+    <!-- {{ searchedResponse }} -->
+    <RouterLink
       class="block"
-      :to="{ name: 'word', query: { id: card.id } }"
-      v-for="card in processedCards"
-      :key="card.id"
+      v-for="result in searchedResponse.data.results"
+      :to="{ name: 'word', query: { w: result.w } }"
+      :key="result.w"
     >
       <div class="bg-wheat-100 my-5 px-5 py-4">
         <div class="text-wheat-500 flex flex-wrap justify-end gap-2 text-sm">
-          <span v-for="ref in card.refsSorted" class="flex w-fit items-center"
+          <span v-for="book in result.refs" class="flex w-fit items-center"
             ><span
               class="material-symbols-rounded w-fit"
               style="font-size: 20px"
               >book_2</span
-            >{{ refMap[ref] ?? '' }}</span
+            >{{ refMap[book] ?? '' }}</span
           >
         </div>
         <div
-          class="ruby-container text-rosybrown-800 text-4xl font-bold break-all whitespace-normal"
+          class="ruby-container text-rosybrown-800 xxl:text-4xl text-3xl font-bold break-all whitespace-normal"
         >
           <ruby
             v-html="
-              makeYngpingRubyInner(card.text, card.pron, 'text-rosybrown-700')
+              makeYngpingRubyInner(
+                result.text,
+                result.pron,
+                'text-rosybrown-700'
+              )
             "
             style="ruby-align: center"
           >
           </ruby>
         </div>
-        <p class="text-wheat-600">{{ card.brief }}</p>
-      </div></router-link
+        <p class="text-wheat-600 mt-2">{{ result.brief }}</p>
+      </div></RouterLink
     >
   </PageContent>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUpdate, onMounted } from 'vue';
+import { watch, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
 import { makeYngpingRubyInner } from '../utils/typography';
 
+const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
+interface SearchResult {
+  w: string;
+  text: string;
+  pron: string;
+  brief: string;
+  refs: string[];
+}
 
-onMounted(() => {
-  document.title = route.query.word
-    ? `${route.query.word} - 检索`
-    : `米时典 SeeDict - 检索`;
+interface SearchResponse {
+  status: number;
+  data: {
+    q: string;
+    currentPage: number;
+    totalPage: number;
+    totalResult: number;
+    results: SearchResult[];
+  };
+}
+
+const searchedResponse = ref<SearchResponse>({
+  status: 0,
+  data: {
+    q: '',
+    currentPage: 0,
+    totalPage: 0,
+    totalResult: 0,
+    results: [],
+  },
 });
 
-onBeforeUpdate(() => {
-  document.title = route.query.word
-    ? `${route.query.word} - 检索`
-    : `米时典 SeeDict - 检索`;
-});
+const loading = ref(false);
+// const error = ref(null);
 
-const refMap: Record<string, string> = {
-  cikling: '戚林八音校注',
-  feng: '福州方言词典',
-  dfd: 'Dictionary of Foochow Dialect',
+const getSearchQuery = (): string => {
+  const q = route.query.q;
+  if (Array.isArray(q)) {
+    return q[0] || '';
+  }
+  return typeof q === 'string' ? q : '';
 };
 
-const processedCards = computed(() => {
-  return searchedCards.cards.map((card) => ({
-    ...card,
-    refsSorted: [...card.refs].sort(),
-  }));
+watch(
+  () => getSearchQuery(),
+  async (newQuery) => {
+    if (!newQuery) return;
+
+    loading.value = true;
+    try {
+      const response = await fetch(
+        `${apiUrl}/search?q=${encodeURIComponent(newQuery)}`
+      );
+      if (!response.ok) throw new Error('Response Error');
+      searchedResponse.value = await response.json();
+      console.log(searchedResponse.value);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      loading.value = false;
+    }
+  },
+  { immediate: true } // 初始加载时立即执行一次
+);
+
+const updateTitle = () => {
+  document.title = route.query.q
+    ? `${route.query.q} - 检索`
+    : `米时典 SeeDict - 检索`;
+};
+
+onMounted(() => {
+  updateTitle();
 });
 
-const searchedCards = {
-  currentPage: 2,
-  totalPage: 10,
-  cards: [
-    {
-      id: 'vfde4',
-      text: '餅',
-      pron: 'bing33',
-      brief: '1. 烤熟或蒸熟的麵食，形狀大多扁而圓。2. 形體像餅的東西。',
-      refs: ['cikling', 'feng'],
-    },
-    {
-      id: '32fde4',
-      text: '餅',
-      pron: 'bing33',
-      brief: '1. 烤熟或蒸熟的麵食，形狀大多扁而圓。2. 形體像餅的東西。',
-      refs: ['cikling', 'dfd'],
-    },
-    {
-      id: 'vfht4',
-      text: '餅',
-      pron: 'bing33',
-      brief: '1. 烤熟或蒸熟的麵食，形狀大多扁而圓。2. 形體像餅的東西。',
-      refs: ['cikling', 'feng'],
-    },
-    {
-      id: 'vfrtr',
-      text: '餅',
-      pron: 'bing33',
-      brief: '1. 烤熟或蒸熟的麵食，形狀大多扁而圓。2. 形體像餅的東西。',
-      refs: ['feng', 'cikling'],
-    },
-    {
-      id: '434fh',
-      text: '餅',
-      pron: 'bing33',
-      brief: '1. 烤熟或蒸熟的麵食，形狀大多扁而圓。2. 形體像餅的東西。',
-      refs: ['dfd'],
-    },
-    {
-      id: 'dsdq',
-      text: '餅',
-      pron: 'bing33',
-      brief: '1. 烤熟或蒸熟的麵食，形狀大多扁而圓。2. 形體像餅的東西。',
-      refs: ['feng', 'cikling'],
-    },
-  ],
+watch(() => route.query.q, updateTitle);
+
+const refMap: Record<string, string> = {
+  feng: '福州方言词典',
+  cikling: '戚林八音校注',
+  dfd: 'Dictionary of Foochow Dialect',
 };
 </script>

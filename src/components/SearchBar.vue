@@ -120,7 +120,7 @@ const handleSubmit = () => {
 
   isHistoryVisible.value = false;
   isInputFocused.value = false;
-  router.push({ path: '/search', query: { word: query } });
+  router.push({ path: '/search', query: { q: query } });
 };
 
 const filterHistory = () => {
