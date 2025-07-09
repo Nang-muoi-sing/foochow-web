@@ -48,28 +48,13 @@ import { watch, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
 import { makeYngpingRubyInner } from '../utils/typography';
+import type { SearchResponse } from '../utils/typing';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
-interface SearchResult {
-  w: string;
-  text: string;
-  pron: string;
-  brief: string;
-  refs: string[];
-}
 
-interface SearchResponse {
-  status: number;
-  data: {
-    q: string;
-    currentPage: number;
-    totalPage: number;
-    totalResult: number;
-    results: SearchResult[];
-  };
-}
-
+const loading = ref(false);
+const q = ref(route.query.q as string);
 const searchedResponse = ref<SearchResponse>({
   status: 0,
   data: {
@@ -81,44 +66,36 @@ const searchedResponse = ref<SearchResponse>({
   },
 });
 
-const loading = ref(false);
-// const error = ref(null);
-
-const getSearchQuery = (): string => {
-  const q = route.query.q;
-  if (Array.isArray(q)) {
-    return q[0] || '';
-  }
-  return typeof q === 'string' ? q : '';
-};
-
-watch(
-  () => getSearchQuery(),
-  async (newQuery) => {
-    if (!newQuery) return;
-
-    loading.value = true;
-    try {
-      const response = await fetch(
-        `${apiUrl}/search?q=${encodeURIComponent(newQuery)}`
-      );
-      if (!response.ok) throw new Error('Response Error');
-      searchedResponse.value = await response.json();
-      console.log(searchedResponse.value);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      loading.value = false;
-    }
-  },
-  { immediate: true } // 初始加载时立即执行一次
-);
-
 const updateTitle = () => {
   document.title = route.query.q
     ? `${route.query.q} - 检索`
     : `米时典 SeeDict - 检索`;
 };
+
+const fetchSearchResponse = async () => {
+  loading.value = true;
+  try {
+    const response = await fetch(
+      `${apiUrl}/search?q=${encodeURIComponent(q.value)}`
+    );
+    if (!response.ok) throw new Error('Response Error');
+    searchedResponse.value = await response.json();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+watch(
+  () => route.query.q,
+  (newQuery) => {
+    if (!newQuery) return;
+    q.value = newQuery as string;
+    fetchSearchResponse();
+  },
+  { immediate: true } // 初始加载时立即执行一次
+);
 
 onMounted(() => {
   updateTitle();

@@ -50,23 +50,9 @@
 import { defineProps } from 'vue';
 import SeeSymbol from './SeeSymbol.vue';
 import Badge from './Badge.vue';
-interface CikLingData {
-  text: string;
-  tone: string;
-  cikFinal?: string;
-  cikInitial?: string;
-  cikAnnotation?: string;
-  liAnnotateCik?: string;
-  liAnnotateCikOrder?: number;
-  lingFinal?: string;
-  lingInitial?: string;
-  lingAnnotation?: string;
-  liAnnotateLing?: string;
-  liAnnotateLingOrder?: number;
-  comment?: string;
-}
+import type { WordCikLing } from '../utils/typing';
 
 const props = defineProps<{
-  data: CikLingData;
+  data: WordCikLing;
 }>();
 </script>
