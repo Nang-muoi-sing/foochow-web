@@ -26,12 +26,10 @@
         <ExplanationBlock
           :explanations="wordResponse.data.result.seedict.expls"
         ></ExplanationBlock>
-        <SeeSymbol
-          v-if="wordResponse.data.result.seedict.commentExpl"
-          icon="注释"
-          icon-class="text-rosybrown-700"
-          >{{ wordResponse.data.result.seedict.commentExpl }}</SeeSymbol
-        >
+        <p v-if="wordResponse.data.result.seedict.commentExpl">
+          <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol
+          >{{ wordResponse.data.result.seedict.commentExpl }}
+        </p>
         <template
           v-if="
             wordResponse.data.result.seedict.synonym ||
@@ -40,18 +38,14 @@
         >
           <hr class="border-rosybrown-100 my-2 border-t-2" />
           <div class="space-y-1">
-            <SeeSymbol
-              v-if="wordResponse.data.result.seedict.synonym"
-              icon="近义词"
-              icon-class="text-rosybrown-700"
-              >{{ wordResponse.data.result.seedict.synonym }}</SeeSymbol
-            >
-            <SeeSymbol
-              v-if="wordResponse.data.result.seedict.antonym"
-              icon="反义词"
-              icon-class="text-rosybrown-700"
-              >{{ wordResponse.data.result.seedict.antonym }}</SeeSymbol
-            >
+            <p v-if="wordResponse.data.result.seedict.synonym">
+              <SeeSymbol class="text-rosybrown-700">近义词</SeeSymbol
+              >{{ wordResponse.data.result.seedict.synonym }}
+            </p>
+            <p v-if="wordResponse.data.result.seedict.antonym">
+              <SeeSymbol class="text-rosybrown-700">反义词</SeeSymbol
+              >{{ wordResponse.data.result.seedict.antonym }}
+            </p>
           </div>
         </template>
       </div>
@@ -120,9 +114,10 @@
           v-if="wordResponse.data.result.seedict.commentPron"
         >
           <hr class="border-rosybrown-100 my-2 border-t-2" />
-          <SeeSymbol icon="注释" icon-class="text-rosybrown-700">
-            {{ wordResponse.data.result.seedict.commentPron }}
-          </SeeSymbol>
+          <p>
+            <SeeSymbol class="text-rosybrown-700">注释 </SeeSymbol
+            >{{ wordResponse.data.result.seedict.commentPron }}
+          </p>
         </div>
       </div>
     </template>
@@ -191,9 +186,10 @@
           v-if="wordResponse.data.result.seedict.commentGlyph"
         >
           <hr class="border-rosybrown-100 my-2 border-t-2" />
-          <SeeSymbol icon="注释" icon-class="text-rosybrown-700">
+          <p>
+            <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol>
             {{ wordResponse.data.result.seedict.commentGlyph }}
-          </SeeSymbol>
+          </p>
         </div>
       </div>
     </template>
@@ -213,9 +209,7 @@ import WordCikLingCard from '../components/WordCikLingCard.vue';
 import WordFengBlock from '../components/WordFengCard.vue';
 import { sourceMap } from '../utils/model';
 import type { WordResponse, WordSeeDict } from '../utils/typing';
-import {
-  makeYngpingRubyInner,
-} from '../utils/typography';
+import { makeYngpingRubyInner } from '../utils/typography';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
