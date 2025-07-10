@@ -58,7 +58,7 @@ export interface FengExplNode {
   node?: FengExplNode[];
 }
 
-interface WordFeng {
+export interface WordFeng {
   text: string;
   pronLiteral: string;
   pronSandhi: string;

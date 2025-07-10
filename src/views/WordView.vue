@@ -64,102 +64,17 @@
       "
     >
       <Subtitle text="辞书释义"></Subtitle>
-      <div
+      <WordFengBlock
         v-if="wordResponse.data.result.fengs?.length > 0"
         v-for="(feng, index) in wordResponse.data.result.fengs"
+        :data="feng"
         :key="index"
-        class="text-rosybrown-800 mt-2 mb-5 rounded-lg bg-white px-8 py-6"
-      >
-        <div class="items-baseline">
-          <span class="text-rosybrown-800 mr-2 text-3xl font-bold sm:text-4xl">
-            {{ feng.text }}
-          </span>
-          <span class="text-rosybrown-500 text-xl">
-            {{ feng.pronLiteral }}<span class="font-serif font-bold">→</span
-            >{{ feng.pronSandhi }}
-          </span>
-        </div>
+      ></WordFengBlock>
 
-        <ExplanationBlock
-          :explanations="feng.expls"
-          :toggle-button="true"
-        ></ExplanationBlock>
-        <SeeSymbol
-          v-if="feng.comment"
-          icon="注释"
-          icon-class="text-rosybrown-700"
-        >
-          {{ replaceChineseQuotes(feng.comment) }}
-        </SeeSymbol>
-        <p class="text-rosybrown-200 mt-2 flex justify-end text-sm">
-          {{
-            feng.refPage
-              ? `冯爱珍. 1998. 福州方言词典. 南京: 江苏教育出版社. 第 ${feng.refPage} 页.`
-              : '冯爱珍. 1998. 福州方言词典. 南京: 江苏教育出版社.'
-          }}
-        </p>
-        <template v-if="feng.correction">
-          <hr class="border-rosybrown-100 my-2 border-t-2" />
-          <SeeSymbol icon="校注" icon-class="text-rosybrown-700">
-            {{ feng.correction }}
-          </SeeSymbol>
-        </template>
-      </div>
-      <div
-        v-if="wordResponse.data.result.ciklings?.length > 0"
-        class="mt-2 mb-5 rounded-lg bg-white px-8 py-6"
-      >
-        <div class="mb-2 space-y-2">
-          <CikLingBlock
-            v-for="(cikling, index) in wordResponse.data.result.ciklings"
-            :data="cikling"
-            :key="index"
-          ></CikLingBlock>
-        </div>
-        <div class="text-rosybrown-800 space-y-1">
-          <template
-            v-for="(cikling, index) in wordResponse.data.result.ciklings"
-            :key="index"
-            ><p>
-              <Badge
-                v-if="cikling.liAnnotateCikOrder"
-                :content="cikling.liAnnotateCik"
-                :data="cikling"
-                >{{ cikling.cikFinal }} {{ cikling.liAnnotateCikOrder }}</Badge
-              >
-            </p>
-            <p>
-              <Badge
-                v-if="cikling.liAnnotateLingOrder"
-                :content="cikling.liAnnotateLing"
-                :data="cikling"
-                >{{ cikling.lingFinal }}
-                {{ cikling.liAnnotateLingOrder }}</Badge
-              >
-            </p>
-          </template>
-        </div>
-
-        <p class="text-rosybrown-200 mt-2 flex justify-end text-sm">
-          李如龙. 2001. 戚林八音校注. 福州: 福建人民出版社.
-        </p>
-        <template v-if="isCommentedCikLing">
-          <hr class="border-rosybrown-100 my-2 border-t-2" />
-          <div class="text-rosybrown-800 space-y-1">
-            <template
-              v-for="(cikling, index) in wordResponse.data.result.ciklings"
-              :key="index"
-            >
-              <SeeSymbol
-                v-if="cikling.comment"
-                icon="注释"
-                icon-class="text-rosybrown-700"
-                >{{ cikling.comment }}</SeeSymbol
-              >
-            </template>
-          </div>
-        </template>
-      </div>
+      <WordCikLingCard
+        :data="wordResponse.data.result.ciklings"
+        :isCommentedCikLing="isCommentedCikLing"
+      ></WordCikLingCard>
     </template>
 
     <template v-if="wordResponse.data.result.seedict.prons.length > 0">
@@ -190,8 +105,12 @@
                 <Badge v-if="pron.isSandhi">连读音</Badge>
                 <Badge v-else>本字音</Badge>
               </td>
-              <td class="py-1.5">{{ pron.location }}</td>
-              <td class="hidden py-1.5 md:block">{{ pron.source }}</td>
+              <td class="py-1.5">
+                {{ pron.location == '' ? '市区' : pron.location }}
+              </td>
+              <td class="hidden py-1.5 md:block">
+                《{{ sourceMap[pron.source] }}》
+              </td>
             </tr>
           </tbody>
         </table>
@@ -282,20 +201,21 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUpdate, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import Badge from '../components/Badge.vue';
-import CikLingBlock from '../components/CikLingBlock.vue';
 import ExplanationBlock from '../components/ExplanationBlock.vue';
 import PageContent from '../components/PageContent.vue';
 import SeeSymbol from '../components/SeeSymbol.vue';
 import SideBar from '../components/SideBar.vue';
 import Subtitle from '../components/Subtitle.vue';
+import WordCikLingCard from '../components/WordCikLingCard.vue';
+import WordFengBlock from '../components/WordFengCard.vue';
+import { sourceMap } from '../utils/model';
+import type { WordResponse, WordSeeDict } from '../utils/typing';
 import {
   makeYngpingRubyInner,
-  replaceChineseQuotes,
 } from '../utils/typography';
-import { useRoute } from 'vue-router';
-import type { WordResponse, WordSeeDict } from '../utils/typing';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();

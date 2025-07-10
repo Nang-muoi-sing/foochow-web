@@ -5,7 +5,6 @@
     >
       查询：{{ route.query.q ?? '' }}
     </div>
-    <!-- {{ searchedResponse }} -->
     <RouterLink
       class="block"
       v-for="result in searchedResponse.data.results"
@@ -19,7 +18,7 @@
               class="material-symbols-rounded w-fit"
               style="font-size: 20px"
               >book_2</span
-            >{{ refMap[book] ?? '' }}</span
+            >{{ sourceMap[book] ?? '' }}</span
           >
         </div>
         <div
@@ -49,6 +48,7 @@ import { useRoute } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
 import { makeYngpingRubyInner } from '../utils/typography';
 import type { SearchResponse } from '../utils/typing';
+import { sourceMap } from '../utils/model';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
@@ -102,10 +102,4 @@ onMounted(() => {
 });
 
 watch(() => route.query.q, updateTitle);
-
-const refMap: Record<string, string> = {
-  feng: '福州方言词典',
-  cikling: '戚林八音校注',
-  dfd: 'Dictionary of Foochow Dialect',
-};
 </script>
