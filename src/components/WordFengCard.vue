@@ -30,7 +30,7 @@
     <template v-if="props.data.correction">
       <hr class="border-rosybrown-100 my-2 border-t-2" />
       <p>
-        <SeeSymbol class="text-rosybrown-700">校注 </SeeSymbol
+        <SeeSymbol class="text-rosybrown-700">校注</SeeSymbol
         >{{ props.data.correction }}
       </p>
     </template>

@@ -8,19 +8,20 @@ import {
   yngpingTypingCursiveFinalToneMap,
 } from './mapping';
 
+export const yngpingInitialPattern = /^(b|p|m|d|t|l|s|z|c|g|k|h|w|j|ng|nj|n)/;
+
 export const yngpingToIPA = (yngping: string): string => {
   if (yngping.trim().length === 0) {
     return '';
   }
 
   const syllables = yngping.split(' ');
-  const initialPattern = /^(b|p|m|d|t|l|s|z|c|g|h|w|j|ng|nj|n)/;
   const tonePattern = /\d+$/;
   const results = [];
 
   for (let i = 0; i < syllables.length; i++) {
     const syllable = syllables[i];
-    const initialMatch = syllable.match(initialPattern);
+    const initialMatch = syllable.match(yngpingInitialPattern);
     let initial = initialMatch ? initialMatch[0] : '';
     const toneMatch = syllable.match(tonePattern);
     let tone: string | null = toneMatch ? toneMatch[0] : null;
@@ -58,12 +59,11 @@ export const yngpingToCursive = (yngping: string): string => {
   }
 
   const syllables = yngping.split(' ');
-  const initialPattern = /^(b|p|m|d|t|l|s|z|c|g|h|w|j|ng|nj|n)/;
   const results: string[] = [];
 
   for (let i = 0; i < syllables.length; i++) {
     const syllable = syllables[i];
-    const initialMatch = syllable.match(initialPattern);
+    const initialMatch = syllable.match(yngpingInitialPattern);
 
     const initial = initialMatch ? initialMatch[0] : '';
     const finalAndTone =
