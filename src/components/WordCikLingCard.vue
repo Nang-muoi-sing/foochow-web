@@ -12,21 +12,14 @@
     </div>
     <div class="text-rosybrown-800 space-y-1">
       <template v-for="(cikling, index) in processedData" :key="index"
-        ><p>
-          <Badge
-            v-if="cikling.liAnnotateCikOrder"
-            :content="cikling.liAnnotateCik"
-            :data="cikling"
-            >{{ cikling.cikFinal }} {{ cikling.liAnnotateCikOrder }}</Badge
-          >
+        ><p v-if="cikling.liAnnotateCikOrder">
+          <Badge>{{ cikling.cikFinal }} {{ cikling.liAnnotateCikOrder }}</Badge
+          >{{ cikling.liAnnotateCik }}
         </p>
-        <p>
+        <p v-if="cikling.liAnnotateLingOrder">
           <Badge
-            v-if="cikling.liAnnotateLingOrder"
-            :content="cikling.liAnnotateLing"
-            :data="cikling"
             >{{ cikling.lingFinal }} {{ cikling.liAnnotateLingOrder }}</Badge
-          >
+          >{{ cikling.liAnnotateLing }}
         </p>
       </template>
     </div>
@@ -37,13 +30,11 @@
     <template v-if="props.isCommentedCikLing">
       <hr class="border-rosybrown-100 my-2 border-t-2" />
       <div class="text-rosybrown-800 space-y-1">
-        <template v-for="(cikling, index) in processedData" :key="index">
-          <SeeSymbol
-            v-if="cikling.comment"
-            icon="注释"
-            icon-class="text-rosybrown-700"
-            >{{ cikling.comment }}</SeeSymbol
-          >
+        <template v-for="(cikling, index) in processedData" :key="index"
+          ><p v-if="cikling.comment">
+            <SeeSymbol class="text-rosybrown-700">校注</SeeSymbol
+            >{{ cikling.comment }}
+          </p>
         </template>
       </div>
     </template>
