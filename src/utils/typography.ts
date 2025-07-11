@@ -24,6 +24,11 @@ export const makeYngpingSup = (yngping: string): string => {
   return tone ? `${yngpingLetter}<sup>${tone}</sup>` : yngping;
 };
 
+export const makeYngpingsSup = (yngping: string): string => {
+  const yngpings = yngping.trim().split(' ');
+  return yngpings.map(makeYngpingSup).join('');
+};
+
 export const replaceChineseQuotes = (text: string): string => {
   return text
     .replace(/“/g, '「') // 左引号“ → 「

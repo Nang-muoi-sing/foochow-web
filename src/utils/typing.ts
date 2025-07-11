@@ -23,6 +23,13 @@ interface Glyph {
   source: string;
 }
 
+export interface Phonetics {
+  yngping: string;
+  phonologyInitial?: string;
+  phonologyFinal?: string;
+  phonologyTone?: string;
+}
+
 export interface WordSeeDict {
   text: string;
   glyphs: Glyph[];
@@ -35,12 +42,7 @@ export interface WordSeeDict {
     source: string;
   }[];
   commentPron?: string;
-  phonetics: {
-    yngping: string;
-    phonology?: string;
-    banguace?: string;
-    ipa?: string;
-  };
+  phonetics: Phonetics;
   expls: {
     lexical: string;
     expl: string;

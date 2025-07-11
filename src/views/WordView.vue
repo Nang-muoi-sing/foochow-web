@@ -53,13 +53,13 @@
 
     <template
       v-if="
-        wordResponse.data.result.fengs?.length > 0 ||
-        wordResponse.data.result.ciklings?.length > 0
+        wordResponse.data.result.fengs.length > 0 ||
+        wordResponse.data.result.ciklings.length > 0
       "
     >
       <Subtitle text="辞书释义"></Subtitle>
       <WordFengBlock
-        v-if="wordResponse.data.result.fengs?.length > 0"
+        v-if="wordResponse.data.result.fengs.length > 0"
         v-for="(feng, index) in wordResponse.data.result.fengs"
         :data="feng"
         :key="index"
@@ -103,7 +103,7 @@
                 {{ pron.location == '' ? '市区' : pron.location }}
               </td>
               <td class="hidden py-1.5 md:block">
-                《{{ sourceMap[pron.source] }}》
+                {{ sourceQuoteMap[pron.source] }}
               </td>
             </tr>
           </tbody>
@@ -124,33 +124,9 @@
 
     <template v-if="wordResponse.data.result.seedict.phonetics">
       <Subtitle text="注音一览"></Subtitle>
-      <div
-        class="text-rosybrown-800 mt-2 mb-5 flex flex-wrap gap-3 rounded-lg bg-white px-8 py-6"
-      >
-        <Badge
-          v-if="wordResponse.data.result.seedict.phonetics.phonology"
-          :content="wordResponse.data.result.seedict.phonetics.phonology"
-          >音韵地位</Badge
-        >
-
-        <Badge
-          v-if="wordResponse.data.result.seedict.phonetics.banguace"
-          :content="wordResponse.data.result.seedict.phonetics.banguace"
-          >教会罗马字</Badge
-        >
-
-        <Badge
-          v-if="wordResponse.data.result.seedict.phonetics.ipa"
-          :content="wordResponse.data.result.seedict.phonetics.ipa"
-          >IPA</Badge
-        >
-
-        <Badge
-          v-if="wordResponse.data.result.seedict.phonetics.yngping"
-          :content="wordResponse.data.result.seedict.phonetics.yngping"
-          >榕拼</Badge
-        >
-      </div>
+      <WordPhoneticCard
+        :data="wordResponse.data.result.seedict.phonetics"
+      ></WordPhoneticCard>
     </template>
 
     <template v-if="wordResponse.data.result.seedict.glyphs.length > 0">
@@ -207,9 +183,10 @@ import SideBar from '../components/SideBar.vue';
 import Subtitle from '../components/Subtitle.vue';
 import WordCikLingCard from '../components/WordCikLingCard.vue';
 import WordFengBlock from '../components/WordFengCard.vue';
-import { sourceMap } from '../utils/model';
+import { sourceQuoteMap } from '../utils/mapping';
 import type { WordResponse, WordSeeDict } from '../utils/typing';
 import { makeYngpingRubyInner } from '../utils/typography';
+import WordPhoneticCard from '../components/WordPhoneticCard.vue';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();

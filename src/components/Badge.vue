@@ -5,14 +5,5 @@
     >
       <slot></slot>
     </span>
-    <span v-if="props.content">{{ props.content }}</span>
   </span>
 </template>
-
-<script setup lang="ts">
-import { defineProps } from 'vue';
-
-const props = defineProps<{
-  content?: string;
-}>();
-</script>

@@ -48,7 +48,7 @@ import { useRoute } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
 import { makeYngpingRubyInner } from '../utils/typography';
 import type { SearchResponse } from '../utils/typing';
-import { sourceMap } from '../utils/model';
+import { sourceMap } from '../utils/mapping';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
