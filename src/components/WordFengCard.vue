@@ -5,8 +5,10 @@
         {{ props.data.text }}
       </span>
       <span class="text-rosybrown-500 text-xl">
-        {{ props.data.pronLiteral }}<span class="font-serif font-bold">→</span
-        >{{ props.data.pronSandhi }}
+        /{{ yngpingToIPA(props.data.pronLiteral) }}/<span
+          class="font-serif font-bold"
+          >→</span
+        >/{{ yngpingToIPA(props.data.pronSandhi) }}/
       </span>
     </div>
 
@@ -14,13 +16,10 @@
       :explanations="props.data.expls"
       :toggle-button="true"
     ></ExplanationBlock>
-    <SeeSymbol
-      v-if="props.data.comment"
-      icon="注释"
-      icon-class="text-rosybrown-700"
-    >
-      {{ replaceChineseQuotes(props.data.comment) }}
-    </SeeSymbol>
+    <p v-if="props.data.comment">
+      <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol
+      >{{ replaceChineseQuotes(props.data.comment) }}
+    </p>
     <p class="text-rosybrown-200 mt-2 flex justify-end text-sm">
       {{
         props.data.refPage
@@ -30,17 +29,20 @@
     </p>
     <template v-if="props.data.correction">
       <hr class="border-rosybrown-100 my-2 border-t-2" />
-      <SeeSymbol icon="校注" icon-class="text-rosybrown-700">
-        {{ props.data.correction }}
-      </SeeSymbol>
+      <p>
+        <SeeSymbol class="text-rosybrown-700">校注 </SeeSymbol
+        >{{ props.data.correction }}
+      </p>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import ExplanationBlock from './ExplanationBlock.vue';
-import { replaceChineseQuotes } from '../utils/typography';
 import type { WordFeng } from '../utils/typing';
+import { replaceChineseQuotes } from '../utils/typography';
+import ExplanationBlock from './ExplanationBlock.vue';
+import SeeSymbol from './SeeSymbol.vue';
+import { yngpingToIPA } from '../utils/phonetics';
 
 const props = defineProps<{
   data: WordFeng;

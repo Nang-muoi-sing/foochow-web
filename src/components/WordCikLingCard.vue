@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { toneCikLingMap } from '../utils/model';
+import { toneCikLingMap } from '../utils/mapping';
 import type { WordCikLing } from '../utils/typing';
 import Badge from './Badge.vue';
 import SeeSymbol from './SeeSymbol.vue';
