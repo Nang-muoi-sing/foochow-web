@@ -37,6 +37,9 @@ const base = import.meta.env.VITE_BASE_URL || '/';
 const router = createRouter({
   history: createWebHistory(base),
   routes,
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 export default router;

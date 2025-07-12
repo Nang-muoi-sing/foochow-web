@@ -1,7 +1,7 @@
 <template>
   <SideBar class="hidden 2xl:block"></SideBar>
   <PageContent>
-    {{ wordResponse }}
+    <!-- {{ wordResponse }} -->
     <div class="bg-wheat-100 mt-5 mb-8 rounded-lg px-8 py-6">
       <div
         class="ruby-container text-rosybrown-800 text-4xl font-bold break-all whitespace-normal md:text-5xl"
@@ -90,7 +90,7 @@
               v-for="(pron, index) in wordResponse.data.result.seedict.prons"
               :key="index"
             >
-              <td class="py-1.5">{{ pron.pron }}</td>
+              <td class="py-1.5">{{ yngpingToIPA(pron.pron) }}</td>
               <td class="flex items-center justify-center py-2 md:hidden">
                 <Badge v-if="pron.isSandhi">连</Badge>
                 <Badge v-else>本</Badge>
@@ -183,10 +183,11 @@ import SideBar from '../components/SideBar.vue';
 import Subtitle from '../components/Subtitle.vue';
 import WordCikLingCard from '../components/WordCikLingCard.vue';
 import WordFengBlock from '../components/WordFengCard.vue';
+import WordPhoneticCard from '../components/WordPhoneticCard.vue';
 import { sourceQuoteMap } from '../utils/mapping';
+import { yngpingToIPA } from '../utils/phonetics';
 import type { WordResponse, WordSeeDict } from '../utils/typing';
 import { makeYngpingRubyInner } from '../utils/typography';
-import WordPhoneticCard from '../components/WordPhoneticCard.vue';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();

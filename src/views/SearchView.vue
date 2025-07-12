@@ -3,7 +3,7 @@
     <div
       class="bg-wheat-300 mb-5 w-fit rounded-lg px-2 py-1 text-xl text-white"
     >
-      查询：{{ route.query.q ?? '' }}
+      查询：{{ state.q }}
     </div>
     <RouterLink
       class="block"
@@ -39,22 +39,31 @@
         <p class="text-wheat-600 mt-2">{{ result.brief }}</p>
       </div></RouterLink
     >
+
+    <Pignation
+      :cur-page="searchedResponse.data.currentPage"
+      :total-page="searchedResponse.data.totalPage"
+    ></Pignation>
   </PageContent>
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
-import { makeYngpingRubyInner } from '../utils/typography';
-import type { SearchResponse } from '../utils/typing';
+import Pignation from '../components/Pignation.vue';
 import { sourceMap } from '../utils/mapping';
+import type { SearchResponse } from '../utils/typing';
+import { makeYngpingRubyInner } from '../utils/typography';
 
-const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
+const router = useRouter();
 
 const loading = ref(false);
-const q = ref(route.query.q as string);
+const state = ref({
+  q: (route.query.q as string) || '',
+  page: parseInt((route.query.page as string) || '1', 10),
+});
 const searchedResponse = ref<SearchResponse>({
   status: 0,
   data: {
@@ -74,27 +83,50 @@ const updateTitle = () => {
 
 const fetchSearchResponse = async () => {
   loading.value = true;
+
   try {
-    const response = await fetch(
-      `${apiUrl}/search?q=${encodeURIComponent(q.value)}`
-    );
-    if (!response.ok) throw new Error('Response Error');
-    searchedResponse.value = await response.json();
+    const params = new URLSearchParams();
+    params.append('q', state.value.q);
+    if (state.value.page > 1)
+      params.append('page', state.value.page.toString());
+
+    const url = `${import.meta.env.VITE_API_URL || '/'}/search?${params}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP错误: ${response.status}`);
+    }
+
+    const data = (await response.json()) as SearchResponse;
+    searchedResponse.value = data;
+
+    if (state.value.page > 1 && data.data.totalResult === 0) {
+      state.value.page = 1;
+      router.push({ query: { q: state.value.q, page: 1 } });
+    }
   } catch (error) {
-    console.error(error);
+    console.error('搜索请求失败:', error);
   } finally {
     loading.value = false;
   }
 };
 
 watch(
-  () => route.query.q,
-  (newQuery) => {
-    if (!newQuery) return;
-    q.value = newQuery as string;
-    fetchSearchResponse();
+  [() => route.query.q, () => route.query.page],
+  ([newQ, newPage]) => {
+    if (typeof newQ === 'string') state.value.q = newQ;
+    if (typeof newPage === 'string') {
+      const pageNum = parseInt(newPage, 10);
+      if (!isNaN(pageNum) && pageNum > 0) {
+        state.value.page = pageNum;
+      }
+    }
+
+    if (state.value.q) {
+      fetchSearchResponse();
+    }
   },
-  { immediate: true } // 初始加载时立即执行一次
+  { immediate: true }
 );
 
 onMounted(() => {

@@ -43,7 +43,7 @@ export const makeYngCursive = (yngping: string): string => {
   const finalAndTone =
     yngpingTypingCursiveFinalToneMap[yngping.slice(initial.length)];
 
-  return `${initial}${finalAndTone}`;
+  return `${initial}${finalAndTone}` == '' ? '' : `&thinsp;${initial}${finalAndTone}&thinsp;`;
 };
 
 export const replaceChineseQuotes = (text: string): string => {
