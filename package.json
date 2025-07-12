@@ -15,18 +15,21 @@
     "flowbite": "^3.1.2",
     "frontend": "file:",
     "gsap": "^3.12.7",
-    "material-symbols": "^0.29.2",
     "tailwindcss": "^4.1.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@iconify-json/material-symbols": "^1.2.29",
+    "@iconify-json/mdi": "^1.2.3",
     "@types/node": "^24.0.12",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "~5.7.2",
+    "unplugin-icons": "^22.1.0",
+    "unplugin-vue-components": "^28.8.0",
     "vite": "^6.2.0",
     "vue-tsc": "^2.2.4"
   }
