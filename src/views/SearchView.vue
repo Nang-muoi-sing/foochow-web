@@ -1,10 +1,17 @@
 <template>
   <PageContent>
     <div
-      class="bg-wheat-300 mb-5 w-fit rounded-lg px-2 py-1 text-xl text-white"
+      class="bg-wheat-300 mb-2.5 w-fit rounded-lg px-2 py-1 text-xl text-white"
     >
       查询：{{ state.q }}
     </div>
+    <span class="text-rosybrown-600 mb-2 px-2 text-sm">
+      {{
+        searchedResponse.data.totalResult
+          ? `共 ${searchedResponse.data.totalResult} 个结果`
+          : '没有找到相关结果'
+      }}
+    </span>
     <RouterLink
       class="block"
       v-for="result in searchedResponse.data.results"
@@ -13,12 +20,22 @@
     >
       <div class="bg-wheat-100 my-5 px-5 py-4">
         <div class="text-wheat-500 flex flex-wrap justify-end gap-2 text-sm">
-          <span v-for="book in result.refs" class="flex w-fit items-center"
-            ><span
-              class="material-symbols-rounded w-fit"
-              style="font-size: 20px"
-              >book_2</span
-            >{{ sourceMap[book] ?? '' }}</span
+          <span
+            class="flex items-center"
+            v-if="result.refs?.length == 0 && !result.brief"
+            ><i-material-symbols-contact-support-rounded
+              style="font-size: 16px"
+            />
+            暂未释义</span
+          >
+
+          <span
+            class="flex items-center"
+            v-else
+            v-for="(book, index) in result.refs"
+            :key="index"
+            ><i-material-symbols-book-2-rounded style="font-size: 16px" />
+            {{ sourceMap[book] ?? '' }}</span
           >
         </div>
         <div
@@ -115,13 +132,15 @@ watch(
   [() => route.query.q, () => route.query.page],
   ([newQ, newPage]) => {
     if (typeof newQ === 'string') state.value.q = newQ;
+
+    let newPageSate = 1;
     if (typeof newPage === 'string') {
       const pageNum = parseInt(newPage, 10);
       if (!isNaN(pageNum) && pageNum > 0) {
-        state.value.page = pageNum;
+        newPageSate = pageNum;
       }
     }
-
+    state.value.page = newPageSate;
     if (state.value.q) {
       fetchSearchResponse();
     }

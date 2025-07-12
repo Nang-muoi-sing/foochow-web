@@ -14,9 +14,7 @@
           }"
           :disabled="props.curPage === 1"
         >
-          <span class="material-symbols-rounded" style="font-size: 20px">
-            arrow_back_ios_new
-          </span>
+          <i-material-symbols-arrow-back-ios-new-rounded />
         </RouterLink>
       </li>
 
@@ -58,9 +56,7 @@
           }"
           :disabled="props.curPage === props.totalPage"
         >
-          <span class="material-symbols-rounded" style="font-size: 20px">
-            arrow_forward_ios
-          </span>
+          <i-material-symbols-arrow-forward-ios-rounded />
         </RouterLink>
       </li>
     </ul>

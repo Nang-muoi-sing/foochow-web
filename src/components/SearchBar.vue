@@ -15,11 +15,12 @@
         }
       "
     >
-      <span
-        class="material-symbols-rounded text-rosybrown-400 hover:text-rosybrown-700 cursor-pointer pl-1"
+      <i-material-symbols-search-rounded
+        width="28"
+        height="28"
+        class="text-rosybrown-400 hover:text-rosybrown-700 cursor-pointer pl-1"
         @click.stop="handleSubmit"
-        >search</span
-      >
+      />
       <input
         class="text-rosybrown-800 h-full w-full"
         v-model.trim="searchQuery"
@@ -39,11 +40,10 @@
             class="flex w-7/8 cursor-pointer flex-row items-center font-sans"
             @click.stop="selectHistory(index)"
           >
-            <span
-              class="material-symbols-rounded text-rosybrown-400 w-fit pr-4"
-              style="font-size: 22px"
-              >history</span
-            >
+            <i-material-symbols-history-rounded
+              class="text-rosybrown-400 pr-4"
+              style="width: 40px"
+            />
             <div class="text-rosybrown-600 overflow-hidden text-ellipsis">
               {{ history }}
             </div>
@@ -120,7 +120,7 @@ const handleSubmit = () => {
 
   isHistoryVisible.value = false;
   isInputFocused.value = false;
-  router.push({ path: '/search', query: { q: query } });
+  router.push({ name: 'search', query: { q: query } });
 };
 
 const filterHistory = () => {
