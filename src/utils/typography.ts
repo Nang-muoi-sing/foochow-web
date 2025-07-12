@@ -1,11 +1,12 @@
 import { yngpingTypingCursiveFinalToneMap } from './mapping';
-import { yngpingInitialPattern } from './phonetics';
+import { yngpingInitialPattern, yngpingToCursive } from './phonetics';
 
 export const makeYngpingRubyInner = (
   text: string,
   yngping: string,
   rubyClass: string = '',
-  helper: CallableFunction = makeYngCursive
+  helper: CallableFunction = makeYngpingCursive,
+  helpers: CallableFunction = makeYngpingsCursive
 ): string => {
   if (!text || !yngping) {
     return '';
@@ -16,7 +17,7 @@ export const makeYngpingRubyInner = (
   //  TODO: <sub>
 
   if (charProns.length !== chars.length) {
-    return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${helper(yngping)}</rt><rp>)</rp>`;
+    return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${helpers(yngping)}</rt><rp>)</rp>`;
   } else {
     let rubyString = '';
     for (let i = 0; i < chars.length; i++) {
@@ -37,14 +38,18 @@ export const makeYngpingsSup = (yngping: string): string => {
   return yngpings.map(makeYngpingSup).join('');
 };
 
-export const makeYngCursive = (yngping: string): string => {
+export const makeYngpingCursive = (yngping: string): string => {
   const initialMatch = yngping.match(yngpingInitialPattern);
   const initial = initialMatch ? initialMatch[0] : '';
   const finalAndTone =
     yngpingTypingCursiveFinalToneMap[yngping.slice(initial.length)];
 
-  return `${initial}${finalAndTone}` == '' ? '' : `&thinsp;${initial}${finalAndTone}&thinsp;`;
+  return `${initial}${finalAndTone}` == ''
+    ? ''
+    : `&thinsp;${initial}${finalAndTone}&thinsp;`;
 };
+
+const makeYngpingsCursive = yngpingToCursive;
 
 export const replaceChineseQuotes = (text: string): string => {
   return text
