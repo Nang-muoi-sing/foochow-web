@@ -62,6 +62,7 @@ export const yngpingIPAFinalMap: Record<string, string> = {
   yo: 'yo',
   eo: 'œ',
   // "o": "ɔ",
+  oo: 'ɔ',
   ooy: 'ɔy',
   ai: 'ai',
   uai: 'uai',
