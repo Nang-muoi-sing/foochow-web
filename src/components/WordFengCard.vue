@@ -12,10 +12,18 @@
       </span>
     </div>
 
-    <ExplanationBlock
-      :explanations="props.data.expls"
-      :toggle-button="true"
-    ></ExplanationBlock>
+    <div class="flex w-full justify-end">
+      <button
+        class="bg-wheat-50 hover:bg-wheat-100 mb-4 cursor-pointer rounded px-3 py-1 text-sm transition"
+        @click="toggleMode"
+      >
+        显示{{ currentGlyph === 'first' ? '推荐用字' : '原书用字' }}
+      </button>
+    </div>
+    <Explanations
+      :data="props.data.expls"
+      :current-glyph="currentGlyph"
+    ></Explanations>
     <p v-if="props.data.comment">
       <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol
       >{{ replaceChineseQuotes(props.data.comment) }}
@@ -38,13 +46,19 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import { yngpingToIPA } from '../utils/phonetics';
 import type { WordFeng } from '../utils/typing';
 import { replaceChineseQuotes } from '../utils/typography';
-import ExplanationBlock from './ExplanationBlock.vue';
+import Explanations from './Explanations.vue';
 import SeeSymbol from './SeeSymbol.vue';
-import { yngpingToIPA } from '../utils/phonetics';
 
 const props = defineProps<{
   data: WordFeng;
 }>();
+
+const currentGlyph = ref<'first' | 'second'>('second');
+const toggleMode = () => {
+  currentGlyph.value = currentGlyph.value === 'first' ? 'second' : 'first';
+};
 </script>

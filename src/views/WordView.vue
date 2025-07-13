@@ -25,9 +25,9 @@
       <template v-if="wordResponse.data.result.seedict.expls.length > 0">
         <Subtitle text="本站释义"></Subtitle>
         <div class="text-rosybrown-800 mt-2 mb-5 rounded-lg bg-white px-8 py-6">
-          <ExplanationBlock
-            :explanations="wordResponse.data.result.seedict.expls"
-          ></ExplanationBlock>
+          <Explanations
+            :data="wordResponse.data.result.seedict.expls"
+          ></Explanations>
           <p v-if="wordResponse.data.result.seedict.commentExpl">
             <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol
             >{{ wordResponse.data.result.seedict.commentExpl }}
@@ -180,7 +180,7 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Badge from '../components/Badge.vue';
-import ExplanationBlock from '../components/ExplanationBlock.vue';
+import Explanations from '../components/Explanations.vue';
 import PageContent from '../components/PageContent.vue';
 import SeeSymbol from '../components/SeeSymbol.vue';
 import SideBar from '../components/SideBar.vue';
