@@ -50,7 +50,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import SeeSymbol from './SeeSymbol.vue';
 import Badge from './Badge.vue';
 import type { WordCikLing } from '../utils/typing';

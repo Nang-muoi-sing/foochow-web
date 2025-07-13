@@ -23,10 +23,6 @@ onMounted(() => {
 </script>
 
 <style>
-body {
-  background-color: gainsboro;
-}
-
 html {
   scroll-behavior: smooth;
 }
