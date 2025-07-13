@@ -9,7 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Badge: typeof import('./src/components/Badge.vue')['default']
-    ExplanationBlock: typeof import('./src/components/ExplanationBlock.vue')['default']
+    Explanations: typeof import('./src/components/Explanations.vue')['default']
     FloatingImages: typeof import('./src/components/FloatingImages.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     ImageCard: typeof import('./src/components/ImageCard.vue')['default']

@@ -55,7 +55,9 @@
             >
             </ruby>
           </div>
-          <p class="text-wheat-600 mt-2">{{ result.brief }}</p>
+          <p class="text-wheat-600 mt-2">
+            {{ replaceChineseQuotes(toggleGlyph(result.brief)) }}
+          </p>
         </div></RouterLink
       >
 
@@ -76,6 +78,7 @@ import { sourceMap } from '../utils/mapping';
 import type { SearchResponse } from '../utils/typing';
 import { makeYngpingRubyInner } from '../utils/typography';
 import SearchSkeleton from '../components/SearchSkeleton.vue';
+import { toggleGlyph, replaceChineseQuotes } from '../utils/typography';
 
 const route = useRoute();
 const router = useRouter();

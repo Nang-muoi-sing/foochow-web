@@ -1,44 +1,23 @@
 <template>
   <div>
-    <div class="flex w-full justify-end" v-if="props.toggleButton">
-      <button
-        class="bg-wheat-50 hover:bg-wheat-100 mb-4 cursor-pointer rounded px-3 py-1 text-sm transition"
-        @click="toggleMode"
-      >
-        显示{{ currentGlyph === 'first' ? '推荐用字' : '原书用字' }}
-      </button>
-    </div>
-
     <div v-html="parsedExplanations"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, ref } from 'vue';
+import { computed, defineProps } from 'vue';
 import { replaceChineseQuotes } from '../utils/typography';
 import type { FengExplNode } from '../utils/typing';
+import { toggleGlyph } from '../utils/typography';
 
 interface Props {
-  explanations: FengExplNode[];
-  toggleButton?: boolean;
+  data: FengExplNode[];
+  currentGlyph?: 'first' | 'second';
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  toggleButton: false,
+  currentGlyph: 'second',
 });
-
-const currentGlyph = ref<'first' | 'second'>('first');
-const toggleMode = () => {
-  currentGlyph.value = currentGlyph.value === 'first' ? 'second' : 'first';
-};
-
-// 替换文本中的 {A,B} 格式
-const replaceToggleText = (text: string): string => {
-  const regex = /\{([^,]+),([^}]+)\}/g;
-  return text.replace(regex, (_, first, second) => {
-    return currentGlyph.value === 'first' ? first : second;
-  });
-};
 
 // 生成层级编号（如 1.1, 1.1.1）
 const generateNumber = (path: number[]): string => path.join('.') + '. ';
@@ -56,7 +35,7 @@ const parseNestedExplanations = (
     style="font-size: 20px"
     >${item.lexical}</span>`
         : '';
-      const processedExpl = `${lexicalIcon}${replaceChineseQuotes(item.expl)}`;
+      const processedExpl = `${lexicalIcon}${replaceChineseQuotes(toggleGlyph(item.expl, props.currentGlyph))}`;
 
       return `
     <li class="mb-2">
@@ -71,7 +50,7 @@ const parseNestedExplanations = (
               .map((sent) => {
                 // 替换例句中的 {A,B} 格式
                 const processedSent = replaceChineseQuotes(
-                  replaceToggleText(sent)
+                  toggleGlyph(sent, props.currentGlyph)
                 );
                 return `
           <li class="flex items-start text-wheat-400">
@@ -94,6 +73,6 @@ const parseNestedExplanations = (
 };
 
 const parsedExplanations = computed(() => {
-  return parseNestedExplanations(props.explanations);
+  return parseNestedExplanations(props.data);
 });
 </script>

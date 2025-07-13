@@ -9,7 +9,7 @@ export const makeYngpingRubyInner = (
   helpers: CallableFunction = makeYngpingsCursive
 ): string => {
   if (!text || !yngping) {
-    return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${text}</rt><rp>)</rp>`; ;
+    return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${text}</rt><rp>)</rp>`;
   }
 
   const chars = text.trim().split('');
@@ -55,4 +55,15 @@ export const replaceChineseQuotes = (text: string): string => {
   return text
     .replace(/“/g, '「') // 左引号“ → 「
     .replace(/”/g, '」'); // 右引号” → 」
+};
+
+// 替换文本中的 {A,B} 格式
+export const toggleGlyph = (
+  text: string,
+  mode: 'first' | 'second' = 'second'
+): string => {
+  const regex = /\{([^,]+),([^}]+)\}/g;
+  return text.replace(regex, (_, first, second) => {
+    return mode === 'first' ? first : second;
+  });
 };
