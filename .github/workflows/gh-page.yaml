@@ -19,6 +19,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install and Build 🔧
+        env:
+          VITE_BASE_URL: /foochow-web
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           npm install
           npm run build
