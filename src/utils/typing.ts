@@ -18,7 +18,7 @@ export interface SearchResponse {
 }
 
 interface Glyph {
-  text: string;
+  glyph: string;
   category: string;
   source: string;
 }

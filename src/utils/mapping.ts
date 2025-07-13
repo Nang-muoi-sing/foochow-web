@@ -814,6 +814,7 @@ export const yngpingTypingCursiveFinalToneMap: Record<string, string> = {
   ih53: 'ìh',
   ih0: 'ịh',
   ik5: 'ik',
+  ik55: 'ik',
   ik33: 'īk',
   ik213: 'ǐk',
   ik21: 'ǐk',

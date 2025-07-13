@@ -57,10 +57,10 @@
       </div></RouterLink
     >
 
-    <Pignation
+    <Pagination
       :cur-page="searchedResponse.data.currentPage"
       :total-page="searchedResponse.data.totalPage"
-    ></Pignation>
+    ></Pagination>
   </PageContent>
 </template>
 
@@ -68,7 +68,7 @@
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
-import Pignation from '../components/Pignation.vue';
+import Pagination from '../components/Pagination.vue';
 import { sourceMap } from '../utils/mapping';
 import type { SearchResponse } from '../utils/typing';
 import { makeYngpingRubyInner } from '../utils/typography';
