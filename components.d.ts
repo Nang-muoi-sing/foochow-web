@@ -43,5 +43,6 @@ declare module 'vue' {
     WordFengCard: typeof import('./src/components/WordFengCard.vue')['default']
     WordPhoneticCard: typeof import('./src/components/WordPhoneticCard.vue')['default']
     WordsDeck: typeof import('./src/components/WordsDeck.vue')['default']
+    WordSkeleton: typeof import('./src/components/WordSkeleton.vue')['default']
   }
 }
