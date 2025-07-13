@@ -144,10 +144,10 @@
           </thead>
           <tbody class="text-center">
             <tr
-              v-for="(glyph, index) in wordResponse.data.result.seedict.glyphs"
+              v-for="glyph, index in wordResponse.data.result.seedict.glyphs"
               :key="index"
             >
-              <td class="py-1.5">{{ glyph.text }}</td>
+              <td class="py-1.5">{{ glyph.glyph }}</td>
               <td class="flex items-center justify-center py-2">
                 <Badge v-if="glyph.category == '本字'">本字</Badge>
                 <Badge v-else :content="glyph.category">俗字</Badge>

@@ -9,7 +9,7 @@ export const makeYngpingRubyInner = (
   helpers: CallableFunction = makeYngpingsCursive
 ): string => {
   if (!text || !yngping) {
-    return '';
+    return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${text}</rt><rp>)</rp>`; ;
   }
 
   const chars = text.trim().split('');
