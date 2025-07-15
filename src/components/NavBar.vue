@@ -1,6 +1,8 @@
 <template>
   <div>
-    <nav class="flex flex-row items-center justify-between gap-5 px-16 py-8">
+    <nav
+      class="flex flex-row items-center justify-between gap-5 px-4 py-2 sm:px-16 sm:py-8"
+    >
       <RouterLink :to="{ name: 'home' }" class="z-100 hidden min-w-35 md:block">
         <img src="../assets/logo.png" />
       </RouterLink>
