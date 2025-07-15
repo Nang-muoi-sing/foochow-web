@@ -1,7 +1,9 @@
 <template>
   <div class="animate-pulse">
-    <div class="bg-wheat-200 mb-2.5 h-6 w-32 rounded-lg px-2 py-1"></div>
-    <div class="bg-wheat-100 mb-2 h-3 w-50 rounded-lg px-2"></div>
+    <div
+      class="bg-wheat-200 mb-2.5 h-6 w-[30%] rounded-lg px-2 py-1 sm:w-32"
+    ></div>
+    <div class="bg-wheat-100 mb-2 h-3 w-[40%] rounded-lg px-2 sm:w-50"></div>
   </div>
 
   <div
@@ -11,13 +13,19 @@
   >
     <div class="animate-pulse">
       <div class="flex justify-end">
-        <div class="bg-wheat-200 mb-3 h-3 w-32 rounded-lg"></div>
+        <div class="bg-wheat-200 mb-3 h-3 w-[35%] rounded-lg sm:w-32"></div>
       </div>
 
-      <div class="bg-wheat-200 mb-5 h-6 w-28 rounded-lg"></div>
-      <div class="bg-wheat-200 mb-2.5 h-3 w-135 rounded-lg"></div>
-      <div class="bg-wheat-200 mb-2.5 h-3 w-105 rounded-lg"></div>
-      <div class="bg-wheat-200 mb-2.5 h-3 w-120 rounded-lg"></div>
+      <div class="bg-wheat-200 mb-5 h-6 w-[30%] rounded-lg sm:w-28"></div>
+      <div
+        class="bg-wheat-200 mb-2.5 h-3 w-[80%] rounded-lg sm:w-85 md:w-135"
+      ></div>
+      <div
+        class="bg-wheat-200 mb-2.5 h-3 w-[65%] rounded-lg sm:w-70 md:w-105"
+      ></div>
+      <div
+        class="bg-wheat-200 mb-2.5 h-3 w-[70%] rounded-lg sm:w-75 md:w-120"
+      ></div>
     </div>
   </div>
 </template>
