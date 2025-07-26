@@ -5,10 +5,9 @@
         {{ props.data.text }}
       </span>
       <span class="text-rosybrown-500 text-xl">
-        /{{ yngpingToIPA(props.data.pronLiteral) }}/<span
-          class="font-serif font-bold"
-          >→</span
-        >/{{ yngpingToIPA(props.data.pronSandhi) }}/
+        /{{ yngpingToIPA(props.data.pronLiteral) }}/→/{{
+          yngpingToIPA(props.data.pronSandhi)
+        }}/
       </span>
     </div>
 
