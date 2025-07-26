@@ -84,7 +84,7 @@
                 <th class="py-1 text-white">读音</th>
                 <th class="py-1 text-white">连读</th>
                 <th class="py-1 text-white">地区</th>
-                <th class="hidden py-1 text-white md:block">来源</th>
+                <!-- <th class="hidden py-1 text-white md:block">来源</th> -->
               </tr>
             </thead>
             <tbody class="text-center">
@@ -104,9 +104,9 @@
                 <td class="py-1.5">
                   {{ pron.location == '' ? '市区' : pron.location }}
                 </td>
-                <td class="hidden py-1.5 md:block">
+                <!-- <td class="hidden py-1.5 md:block">
                   {{ sourceQuoteMap[pron.source] }}
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </table>
@@ -141,7 +141,7 @@
               <tr>
                 <th class="py-1 text-white">用字</th>
                 <th class="py-1 text-white">类别</th>
-                <th class="py-1 text-white">来源</th>
+                <!-- <th class="py-1 text-white">来源</th> -->
               </tr>
             </thead>
             <tbody class="text-center">
@@ -155,7 +155,7 @@
                   <Badge v-if="glyph.category == '本字'">本字</Badge>
                   <Badge v-else :content="glyph.category">俗字</Badge>
                 </td>
-                <td class="py-1.5">{{ glyph.source }}</td>
+                <!-- <td class="py-1.5">{{ glyph.source }}</td> -->
               </tr>
             </tbody>
           </table>
@@ -188,7 +188,6 @@ import Subtitle from '../components/Subtitle.vue';
 import WordCikLingCard from '../components/WordCikLingCard.vue';
 import WordFengBlock from '../components/WordFengCard.vue';
 import WordPhoneticCard from '../components/WordPhoneticCard.vue';
-import { sourceQuoteMap } from '../utils/mapping';
 import { yngpingToIPA, makeYngpingRubyInner } from '../utils/phonetics';
 import type { WordResponse, WordSeeDict } from '../utils/typing';
 import WordSkeleton from '../components/WordSkeleton.vue';
