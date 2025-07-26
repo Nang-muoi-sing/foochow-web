@@ -22,9 +22,9 @@ const routes = [
     component: () => import('../views/ResourceView.vue'),
   },
   {
-    path: '/donate',
-    name: 'donate',
-    component: () => import('../views/DonateView.vue'),
+    path: '/help',
+    name: 'help',
+    component: () => import('../views/HelpView.vue'),
   },
   {
     path: '/about',

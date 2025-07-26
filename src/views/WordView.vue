@@ -189,9 +189,8 @@ import WordCikLingCard from '../components/WordCikLingCard.vue';
 import WordFengBlock from '../components/WordFengCard.vue';
 import WordPhoneticCard from '../components/WordPhoneticCard.vue';
 import { sourceQuoteMap } from '../utils/mapping';
-import { yngpingToIPA } from '../utils/phonetics';
+import { yngpingToIPA, makeYngpingRubyInner } from '../utils/phonetics';
 import type { WordResponse, WordSeeDict } from '../utils/typing';
-import { makeYngpingRubyInner } from '../utils/typography';
 import WordSkeleton from '../components/WordSkeleton.vue';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';

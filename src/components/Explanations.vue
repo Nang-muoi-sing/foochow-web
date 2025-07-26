@@ -6,9 +6,8 @@
 
 <script setup lang="ts">
 import { computed, defineProps } from 'vue';
-import { replaceChineseQuotes } from '../utils/typography';
+import { replaceChineseQuotes, toggleGlyph } from '../utils/typography';
 import type { FengExplNode } from '../utils/typing';
-import { toggleGlyph } from '../utils/typography';
 
 interface Props {
   data: FengExplNode[];

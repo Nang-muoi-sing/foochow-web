@@ -49,7 +49,7 @@
 <script lang="ts" setup>
 import gsap from 'gsap';
 import { onMounted, reactive, ref } from 'vue';
-import { makeYngpingRubyInner } from '../utils/typography';
+import { makeYngpingRubyInner } from '../utils/phonetics';
 
 // 卡片数据
 const cards = [
