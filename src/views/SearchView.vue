@@ -76,7 +76,7 @@ import PageContent from '../components/PageContent.vue';
 import Pagination from '../components/Pagination.vue';
 import { sourceMap } from '../utils/mapping';
 import type { SearchResponse } from '../utils/typing';
-import { makeYngpingRubyInner } from '../utils/typography';
+import { makeYngpingRubyInner } from '../utils/phonetics';
 import SearchSkeleton from '../components/SearchSkeleton.vue';
 import { toggleGlyph, replaceChineseQuotes } from '../utils/typography';
 

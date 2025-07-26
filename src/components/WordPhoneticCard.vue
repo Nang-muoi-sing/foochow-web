@@ -28,10 +28,10 @@ import {
   yngpingToIPA,
   yngpingToCursive,
   phonologyToBanguace,
+  makeYngpingsSup
 } from '../utils/phonetics';
 import type { Phonetics } from '../utils/typing';
 import Badge from './Badge.vue';
-import { makeYngpingsSup } from '../utils/typography';
 
 const props = defineProps<{
   data: Phonetics;
