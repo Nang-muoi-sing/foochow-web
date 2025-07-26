@@ -1,15 +1,17 @@
 import {
   phonologyBanguaceFinalToneMap,
   phonologyBanguaceInitialMap,
-  yngpingEndToneIPAMap,
+  yngpingFengIPAEndToneMap,
+  yngpingFengIPAFinalMap,
+  yngpingFengIPAInitialMap,
+  yngpingFengIPAToneMap,
   yngpingIPAFinalMap,
   yngpingIPAInitialMap,
-  yngpingToneIPAMap,
+  yngpingIPAToneMap,
   yngpingTypingCursiveFinalToneMap,
 } from './mapping';
 
 export const yngpingInitialPattern = /^(b|p|m|d|t|l|s|z|c|g|k|h|w|j|ng|nj|n)/;
-
 
 const endWithLowercase = (str: string): boolean => {
   if (!str) return false;
@@ -25,16 +27,31 @@ const parseBrace = (syllable: string): string => {
   syllable = syllable.replace('{', '');
   syllable = syllable.replace('}', '');
   if (endWithLowercase(syllable)) {
-    return syllable + "0";
+    return syllable + '0';
   } else {
     return syllable;
   }
 };
 
-export const yngpingToIPA = (yngping: string): string => {
+export const yngpingToIPA = (
+  yngping: string,
+  feng_style: boolean = false
+): string => {
   if (yngping.trim().length === 0) {
     return '';
   }
+
+  let initialMap, finalMap, toneMap, endToneMap;
+  if (feng_style) {
+    initialMap = yngpingFengIPAInitialMap;
+    finalMap = yngpingFengIPAFinalMap;
+    toneMap = yngpingFengIPAToneMap;
+  } else {
+    initialMap = yngpingIPAInitialMap;
+    finalMap = yngpingIPAFinalMap;
+    toneMap = yngpingIPAToneMap;
+  }
+  endToneMap = yngpingFengIPAEndToneMap;
 
   const syllables = yngping.split(' ');
   const tonePattern = /\d+$/;
@@ -59,17 +76,15 @@ export const yngpingToIPA = (yngping: string): string => {
     // ng 既作声母也作韵母，当没有其他韵母时就是韵母
     if (initial === 'ng' && final === '') {
       initial = '';
-      final = yngpingIPAFinalMap['ng'];
+      final = finalMap['ng'];
     }
 
     tone =
-      syllables.length === 1 || i !== syllables.length - 1
-        ? yngpingToneIPAMap[tone]
-        : yngpingEndToneIPAMap[tone];
+      !feng_style || syllables.length === 1 || i !== syllables.length - 1
+        ? toneMap[tone]
+        : endToneMap[tone];
 
-    results.push(
-      `${yngpingIPAInitialMap[initial]}${yngpingIPAFinalMap[final]}${tone}`
-    );
+    results.push(`${initialMap[initial]}${finalMap[final]}${tone}`);
   }
   return results.join(' ');
 };
@@ -106,7 +121,6 @@ export const phonologyToBanguace = (
     phonologyBanguaceFinalToneMap[`${phonologyFinal}${phonologyTone}`] ?? '';
   return `${initial}${final}`;
 };
-
 
 export const makeYngpingRubyInner = (
   text: string,

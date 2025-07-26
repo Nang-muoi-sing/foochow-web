@@ -22,7 +22,7 @@ export const toneCikLingMap: Record<string, string> = {
   8: '下入',
 };
 
-export const yngpingIPAInitialMap: Record<string, string> = {
+export const yngpingFengIPAInitialMap: Record<string, string> = {
   '': '',
   b: 'p',
   p: 'p’',
@@ -43,7 +43,7 @@ export const yngpingIPAInitialMap: Record<string, string> = {
   nj: 'ʒ',
 };
 
-export const yngpingIPAFinalMap: Record<string, string> = {
+export const yngpingFengIPAFinalMap: Record<string, string> = {
   '': '',
   i: 'i',
   ei: 'ɛi',
@@ -123,7 +123,7 @@ export const yngpingIPAFinalMap: Record<string, string> = {
   ooyh: 'ɔyʔ',
 };
 
-export const yngpingToneIPAMap: Record<string, string> = {
+export const yngpingFengIPAToneMap: Record<string, string> = {
   55: '˥˥',
   33: '˧˧',
   213: '˨˩˨',
@@ -135,7 +135,7 @@ export const yngpingToneIPAMap: Record<string, string> = {
   0: '',
 };
 
-export const yngpingEndToneIPAMap: Record<string, string> = {
+export const yngpingFengIPAEndToneMap: Record<string, string> = {
   55: '˥˥',
   33: '˧˧',
   213: '˨˩˨',
@@ -150,6 +150,112 @@ export const yngpingEndToneIPAMap: Record<string, string> = {
 // 这种一对二的映射有两种快捷的解决办法。
 // 1.暴力映射，只要不处在多音节词汇末尾的24，统统转换为“˧˥”（即35）。
 // 2.无视这种差异，在线上词典说明页面说明即可。个人建议选第一种。
+
+export const yngpingIPAInitialMap: Record<string, string> = {
+  '': '',
+  b: 'p',
+  p: 'pʰ',
+  m: 'm',
+  d: 't',
+  t: 'tʰ',
+  n: 'n',
+  l: 'l',
+  s: 's',
+  z: 't͡s',
+  c: 't͡sʰ',
+  g: 'k',
+  k: 'kʰ',
+  ng: 'ŋ',
+  h: 'h',
+  w: 'β̞',
+  j: 'ɹ',
+  nj: 'ɹ̃',
+};
+
+export const yngpingIPAFinalMap: Record<string, string> = {
+  '': '',
+  a: 'a',
+  ia: 'ia',
+  ua: 'ua',
+  e: 'e',
+  ie: 'ie',
+  o: 'o',
+  oo: 'ɒ',
+  uo: 'uo',
+  yo: 'yo',
+  eo: 'ø',
+  au: 'au',
+  eu: 'eu',
+  iu: 'iu',
+  ieu: 'ieu',
+  ai: 'ai',
+  uai: 'uai',
+  ui: 'ui',
+  uoi: 'uoi',
+  i: 'i',
+  ei: 'ei',
+  u: 'u',
+  ou: 'ou',
+  y: 'y',
+  eoy: 'øy',
+  ooy: 'ɒy',
+  ang: 'aŋ',
+  iang: 'iaŋ',
+  uang: 'uaŋ',
+  ieng: 'ieŋ',
+  uong: 'uoŋ',
+  yong: 'yoŋ',
+  ing: 'iŋ',
+  eing: 'eiŋ',
+  aing: 'aiŋ',
+  ung: 'uŋ',
+  oung: 'ouŋ',
+  ooung: 'ɒuŋ',
+  yng: 'yŋ',
+  eoyng: 'øyŋ',
+  ooyng: 'ɒyŋ',
+  ah: 'aʔ',
+  ak: 'aʔ',
+  iah: 'iaʔ',
+  iak: 'iaʔ',
+  uah: 'uaʔ',
+  uak: 'uaʔ',
+  eh: 'eʔ',
+  ek: 'eʔ',
+  ieh: 'ieʔ',
+  iek: 'ieʔ',
+  oh: 'oʔ',
+  ooh: 'ɒʔ',
+  uoh: 'uoʔ',
+  uok: 'uoʔ',
+  yoh: 'yoʔ',
+  yok: 'yoʔ',
+  eoh: 'øʔ',
+  ih: 'iʔ',
+  ik: 'iʔ',
+  eik: 'eiʔ',
+  aik: 'aiʔ',
+  uh: 'uʔ',
+  uk: 'uʔ',
+  ouk: 'ouʔ',
+  oouk: 'ɒuʔ',
+  yh: 'yʔ',
+  yk: 'yʔ',
+  eoyk: 'øyʔ',
+  ooyk: 'ɒy',
+};
+
+export const yngpingIPAToneMap: Record<string, string> = {
+  55: '˥˥',
+  33: '˧˧',
+  213: '˨˩',
+  21: '˨˩',
+  24: '˧˥',
+  53: '˥˧',
+  242: '˨˦˨',
+  5: '˥',
+  0: '',
+};
 
 export const phonologyBanguaceInitialMap: Record<string, string> = {
   柳: 'l',
