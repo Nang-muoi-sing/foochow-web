@@ -20,7 +20,7 @@ jobs:
 
       - name: Install and Build 🔧
         env:
-          VITE_BASE_URL: /foochow-web
+          VITE_BASE_URL: /SeeDict
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           npm install
