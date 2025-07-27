@@ -7,16 +7,19 @@
           class="text-rosybrown-600 hover:text-rosybrown-800 relative block pl-5 font-semibold text-nowrap transition-all duration-300"
           :class="{ 'text-rosybrown-800 font-bold': activeId === heading.id }"
         >
-          <span
-            class="absolute left-0 transform transition-all duration-300"
-            :class="{
-              'scale-125 opacity-100': activeId === heading.id,
-              'scale-90 opacity-60': activeId !== heading.id,
-            }"
-          >
-            {{ activeId === heading.id ? '⬤' : '〇' }}
-          </span>
-          {{ heading.text }}
+          <div class="flex items-center gap-1">
+            <span
+              class="absolute left-0 transform transition-all duration-300"
+              :class="{
+                'scale-125 opacity-100': activeId === heading.id,
+                'scale-100 opacity-60': activeId !== heading.id,
+              }"
+            >
+              <i-material-symbols-circle v-if="activeId === heading.id" />
+              <i-material-symbols-circle-outline v-else />
+            </span>
+            <span>&ensp;{{ heading.text }}</span>
+          </div>
         </a>
       </li>
     </ol>
