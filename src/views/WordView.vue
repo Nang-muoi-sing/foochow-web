@@ -177,8 +177,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, nextTick, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Badge from '../components/Badge.vue';
 import Explanations from '../components/Explanations.vue';
 import PageContent from '../components/PageContent.vue';
@@ -188,12 +188,13 @@ import Subtitle from '../components/Subtitle.vue';
 import WordCikLingCard from '../components/WordCikLingCard.vue';
 import WordFengBlock from '../components/WordFengCard.vue';
 import WordPhoneticCard from '../components/WordPhoneticCard.vue';
-import { yngpingToIPA, makeYngpingRubyInner } from '../utils/phonetics';
-import type { WordResponse, WordSeeDict } from '../utils/typing';
 import WordSkeleton from '../components/WordSkeleton.vue';
+import { makeYngpingRubyInner, yngpingToIPA } from '../utils/phonetics';
+import type { WordResponse, WordSeeDict } from '../utils/typing';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
+const router = useRouter();
 const w = ref(route.query.w as string);
 const loading = ref(false);
 const wordResponse = ref<WordResponse>({
@@ -215,6 +216,43 @@ const wordResponse = ref<WordResponse>({
   },
 });
 
+const avoidAnchorScroll = (): string => {
+  if (route.hash) {
+    const savedHash = route.hash;
+    // 用 router.replace 移除 hash，阻止浏览器默认滚动
+    router
+      .replace({
+        ...route,
+        hash: '',
+      })
+      .catch(() => {});
+    return savedHash;
+  }
+  return '';
+};
+
+const scrollAnchor = (hashAnchor: string) => {
+  if (hashAnchor) {
+    console.log(hashAnchor);
+    const decodedHash = decodeURIComponent(hashAnchor);
+    nextTick(() => {
+      const target = document.querySelector(decodedHash);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        router
+          .replace({
+            ...route,
+            hash: decodedHash,
+          })
+          .catch(() => {});
+      }
+    });
+  }
+};
+
+const savedHash = avoidAnchorScroll();
+
 const updateTitle = () => {
   document.title = wordResponse.value.data?.result?.seedict?.text
     ? `${wordResponse.value.data.result.seedict.text} - 词汇`
@@ -234,9 +272,11 @@ const fetchWordResponse = async () => {
     console.error(error);
   } finally {
     loading.value = false;
+    setTimeout(() => {
+      scrollAnchor(savedHash);
+    }, 100);
   }
 };
-
 watch(
   () => route.query.w,
   (newWord) => {

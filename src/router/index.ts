@@ -37,8 +37,13 @@ const base = import.meta.env.VITE_BASE_URL || '/';
 const router = createRouter({
   history: createWebHistory(base),
   routes,
-  scrollBehavior() {
-    return { top: 0 };
+  scrollBehavior(to, _from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    if (!to.hash) {
+      return { top: 0 };
+    }
   },
 });
 

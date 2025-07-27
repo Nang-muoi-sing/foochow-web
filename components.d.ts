@@ -15,6 +15,8 @@ declare module 'vue' {
     IMaterialSymbolsArrowBackIosNewRounded: typeof import('~icons/material-symbols/arrow-back-ios-new-rounded')['default']
     IMaterialSymbolsArrowForwardIosRounded: typeof import('~icons/material-symbols/arrow-forward-ios-rounded')['default']
     IMaterialSymbolsBook2Rounded: typeof import('~icons/material-symbols/book2-rounded')['default']
+    IMaterialSymbolsCircle: typeof import('~icons/material-symbols/circle')['default']
+    IMaterialSymbolsCircleOutline: typeof import('~icons/material-symbols/circle-outline')['default']
     IMaterialSymbolsContactSupportRounded: typeof import('~icons/material-symbols/contact-support-rounded')['default']
     IMaterialSymbolsCrowdsource: typeof import('~icons/material-symbols/crowdsource')['default']
     IMaterialSymbolsHelpRounded: typeof import('~icons/material-symbols/help-rounded')['default']
