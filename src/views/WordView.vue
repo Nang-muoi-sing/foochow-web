@@ -1,5 +1,8 @@
 <template>
-  <SideBar v-show="!loading" class="hidden 2xl:block"></SideBar>
+  <SideBar
+    v-show="!loading"
+    class="top-[170px] left-[2%] 2xl:left-25 hidden xl:block"
+  ></SideBar>
   <PageContent>
     <!-- {{ wordResponse }} -->
     <WordSkeleton v-if="loading"></WordSkeleton>
