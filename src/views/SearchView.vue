@@ -41,19 +41,9 @@
             >
           </div>
           <div
-            class="ruby-container text-rosybrown-800 xxl:text-4xl text-3xl font-bold break-all whitespace-normal"
+            class="text-rosybrown-800 xxl:text-4xl text-3xl font-bold break-all whitespace-normal"
           >
-            <ruby
-              v-html="
-                makeYngpingRubyInner(
-                  result.text,
-                  result.pron,
-                  'text-rosybrown-700'
-                )
-              "
-              style="ruby-align: center"
-            >
-            </ruby>
+            <RubyText :text="result.text" :yngping="result.pron"></RubyText>
           </div>
           <p class="text-wheat-600 mt-2">
             {{ replaceChineseQuotes(toggleGlyph(result.brief)) }}
@@ -74,11 +64,11 @@ import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
 import Pagination from '../components/Pagination.vue';
+import RubyText from '../components/RubyText.vue';
+import SearchSkeleton from '../components/SearchSkeleton.vue';
 import { sourceMap } from '../utils/mapping';
 import type { SearchResponse } from '../utils/typing';
-import { makeYngpingRubyInner } from '../utils/phonetics';
-import SearchSkeleton from '../components/SearchSkeleton.vue';
-import { toggleGlyph, replaceChineseQuotes } from '../utils/typography';
+import { replaceChineseQuotes, toggleGlyph } from '../utils/typography';
 
 const route = useRoute();
 const router = useRouter();

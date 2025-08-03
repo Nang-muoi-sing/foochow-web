@@ -126,8 +126,9 @@ export const makeYngpingRubyInner = (
   text: string,
   yngping: string,
   rubyClass: string = '',
-  helper: CallableFunction = makeYngpingCursive,
-  helpers: CallableFunction = makeYngpingsCursive
+  syllableConvertor: CallableFunction = makeYngpingCursive,
+  syllablesConvertor: CallableFunction = makeYngpingsCursive
+  // processor: (str: string) => string = textProcessor.wrapAsterisks
 ): string => {
   if (!text || !yngping) {
     return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${text}</rt><rp>)</rp>`;
@@ -135,14 +136,13 @@ export const makeYngpingRubyInner = (
 
   const chars = text.trim().split('');
   const charProns = yngping.trim().split(' ');
-  //  TODO: <sub>
 
   if (charProns.length !== chars.length) {
-    return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${helpers(yngping)}</rt><rp>)</rp>`;
+    return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${syllablesConvertor(yngping)}</rt><rp>)</rp>`;
   } else {
     let rubyString = '';
     for (let i = 0; i < chars.length; i++) {
-      rubyString += `<span class="rb">${chars[i]}</span><rp>(</rp><rt class="${rubyClass}">${helper(charProns[i])}</rt><rp>)</rp>`;
+      rubyString += `<span class="rb">${chars[i]}</span><rp>(</rp><rt class="${rubyClass}">${syllableConvertor(charProns[i])}</rt><rp>)</rp>`;
     }
     return rubyString;
   }
@@ -167,9 +167,7 @@ export const makeYngpingCursive = (yngping: string): string => {
   const finalAndTone =
     yngpingTypingCursiveFinalToneMap[yngping.slice(initial.length)];
 
-  return `${initial}${finalAndTone}` == ''
-    ? ''
-    : `&thinsp;${initial}${finalAndTone}&thinsp;`;
+  return `${initial}${finalAndTone}` == '' ? '' : `${initial}${finalAndTone}`;
 };
 
-const makeYngpingsCursive = yngpingToCursive;
+export const makeYngpingsCursive = yngpingToCursive;
