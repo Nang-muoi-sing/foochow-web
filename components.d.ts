@@ -31,6 +31,7 @@ declare module 'vue' {
     Pagination: typeof import('./src/components/Pagination.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    RubyText: typeof import('./src/components/RubyText.vue')['default']
     SearchBar: typeof import('./src/components/SearchBar.vue')['default']
     SearchSkeleton: typeof import('./src/components/SearchSkeleton.vue')['default']
     SeeSymbol: typeof import('./src/components/SeeSymbol.vue')['default']

@@ -1,7 +1,7 @@
 <template>
   <SideBar
     v-show="!loading"
-    class="top-[170px] left-[2%] 2xl:left-25 hidden xl:block"
+    class="top-[170px] left-[2%] hidden xl:block 2xl:left-25"
   ></SideBar>
   <PageContent>
     <!-- {{ wordResponse }} -->
@@ -9,19 +9,12 @@
     <template v-else>
       <div class="bg-wheat-100 mt-5 mb-8 rounded-lg px-8 py-6">
         <div
-          class="ruby-container text-rosybrown-800 text-4xl font-bold break-all whitespace-normal md:text-5xl"
+          class="text-rosybrown-800 text-4xl font-bold break-all whitespace-normal md:text-5xl"
         >
-          <ruby
-            v-html="
-              makeYngpingRubyInner(
-                wordResponse.data.result.seedict.text,
-                wordResponse.data.result.seedict.pronPrimary,
-                'text-rosybrown-700'
-              )
-            "
-            style="ruby-align: center"
-          >
-          </ruby>
+          <RubyText
+            :text="wordResponse.data.result.seedict.text"
+            :yngping="wordResponse.data.result.seedict.pronPrimary"
+          ></RubyText>
         </div>
       </div>
 
@@ -192,7 +185,7 @@ import WordCikLingCard from '../components/WordCikLingCard.vue';
 import WordFengBlock from '../components/WordFengCard.vue';
 import WordPhoneticCard from '../components/WordPhoneticCard.vue';
 import WordSkeleton from '../components/WordSkeleton.vue';
-import { makeYngpingRubyInner, yngpingToIPA } from '../utils/phonetics';
+import { yngpingToIPA } from '../utils/phonetics';
 import type { WordResponse, WordSeeDict } from '../utils/typing';
 
 const apiUrl = import.meta.env.VITE_API_URL || '/';
