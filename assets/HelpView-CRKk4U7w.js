@@ -1,0 +1,1 @@
+import{_ as o}from"./PageContent.vue_vue_type_script_setup_true_lang-iF7h4Sc8.js";import{d as e,x as r,b as t}from"./index-DTXQlhm0.js";import"./NavBar-B-XnZ33m.js";import"./SearchBar-DvFq-msI.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./Footer-BUPOW7Iy.js";const l=e({__name:"HelpView",setup(p){return(m,a)=>(t(),r(o))}});export{l as default};
