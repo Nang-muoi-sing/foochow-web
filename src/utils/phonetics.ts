@@ -33,7 +33,8 @@ export const yngpingToIPA = (
   yngping: string,
   feng_style: boolean = false
 ): string => {
-  if (yngping.trim().length === 0) {
+  const rawYngping = yngping.trim();
+  if (rawYngping.length === 0) {
     return '';
   }
 
@@ -49,12 +50,17 @@ export const yngpingToIPA = (
   }
   endToneMap = yngpingFengIPAEndToneMap;
 
-  const syllables = yngping.split(' ');
+  const syllables = rawYngping.split(' ');
   const tonePattern = /\d+$/;
   const results = [];
 
   for (let i = 0; i < syllables.length; i++) {
-    const [syllable, _] = parseBrace(syllables[i]);
+    let [syllable, _] = parseBrace(syllables[i]);
+    // 无声调，在 IPA 里视作 0
+    if (endWithLowercase(syllable)) {
+      syllable += '0';
+    }
+
     const initialMatch = syllable.match(yngpingInitialPattern);
     let initial = initialMatch ? initialMatch[0] : '';
     const toneMatch = syllable.match(tonePattern);
