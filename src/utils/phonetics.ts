@@ -19,18 +19,14 @@ const endWithLowercase = (str: string): boolean => {
   return code >= 97 && code <= 122;
 };
 
-const parseBrace = (syllable: string): string => {
+const parseBrace = (syllable: string): [string, boolean] => {
   if (!syllable.startsWith('{') || !syllable.endsWith('}')) {
-    return syllable;
+    return [syllable, false];
   }
 
   syllable = syllable.replace('{', '');
   syllable = syllable.replace('}', '');
-  if (endWithLowercase(syllable)) {
-    return syllable + '0';
-  } else {
-    return syllable;
-  }
+  return [syllable, true];
 };
 
 export const yngpingToIPA = (
@@ -58,7 +54,7 @@ export const yngpingToIPA = (
   const results = [];
 
   for (let i = 0; i < syllables.length; i++) {
-    const syllable = parseBrace(syllables[i]);
+    const [syllable, _] = parseBrace(syllables[i]);
     const initialMatch = syllable.match(yngpingInitialPattern);
     let initial = initialMatch ? initialMatch[0] : '';
     const toneMatch = syllable.match(tonePattern);
@@ -90,25 +86,15 @@ export const yngpingToIPA = (
 };
 
 export const yngpingToCursive = (yngping: string): string => {
-  if (yngping.trim().length === 0) {
+  const rawYngping = yngping.trim();
+  if (rawYngping.length === 0) {
     return '';
   }
 
-  const syllables = yngping.split(' ');
-  const results: string[] = [];
-
-  for (let i = 0; i < syllables.length; i++) {
-    const syllable = parseBrace(syllables[i]);
-    const initialMatch = syllable.match(yngpingInitialPattern);
-
-    const initial = initialMatch ? initialMatch[0] : '';
-    const finalAndTone =
-      yngpingTypingCursiveFinalToneMap[syllable.slice(initial.length)];
-
-    results.push(`${initial}${finalAndTone}`);
-  }
-
-  return results.join(' ');
+  return rawYngping
+    .split(' ')
+    .map((syllable) => makeYngpingCursive(syllable))
+    .join(' ');
 };
 
 export const phonologyToBanguace = (
@@ -128,7 +114,6 @@ export const makeYngpingRubyInner = (
   rubyClass: string = '',
   syllableConvertor: CallableFunction = makeYngpingCursive,
   syllablesConvertor: CallableFunction = makeYngpingsCursive
-  // processor: (str: string) => string = textProcessor.wrapAsterisks
 ): string => {
   if (!text || !yngping) {
     return `<span class="rb">${text}</span><rp>(</rp><rt class="${rubyClass}">${text}</rt><rp>)</rp>`;
@@ -149,10 +134,15 @@ export const makeYngpingRubyInner = (
 };
 
 export const makeYngpingSup = (yngping: string): string => {
-  yngping = parseBrace(yngping);
-  const tone = yngping.match(/\d+$/);
-  const yngpingLetter = yngping.replace(/\d+$/, '');
-  return tone ? `${yngpingLetter}<sup>${tone}</sup>` : yngping;
+  const [parsedYngping, shouldAddBrace] = parseBrace(yngping);
+  const tone = parsedYngping.match(/\d+$/);
+  const yngpingLetter = parsedYngping.replace(/\d+$/, '');
+
+  if (shouldAddBrace) {
+    return tone ? `{${yngpingLetter}<sup>${tone}</sup>}` : `{${parsedYngping}}`;
+  }
+
+  return tone ? `${yngpingLetter}<sup>${tone}</sup>` : parsedYngping;
 };
 
 export const makeYngpingsSup = (yngping: string): string => {
@@ -161,13 +151,22 @@ export const makeYngpingsSup = (yngping: string): string => {
 };
 
 export const makeYngpingCursive = (yngping: string): string => {
-  yngping = parseBrace(yngping);
-  const initialMatch = yngping.match(yngpingInitialPattern);
+  let [parsedYngping, shouldAddBrace] = parseBrace(yngping);
+  // 有花括号且无声调，在手写里视作 55
+  if (shouldAddBrace && endWithLowercase(parsedYngping)) {
+    parsedYngping += '55';
+  }
+
+  const initialMatch = parsedYngping.match(yngpingInitialPattern);
   const initial = initialMatch ? initialMatch[0] : '';
   const finalAndTone =
-    yngpingTypingCursiveFinalToneMap[yngping.slice(initial.length)];
+    yngpingTypingCursiveFinalToneMap[parsedYngping.slice(initial.length)];
 
-  return `${initial}${finalAndTone}` == '' ? '' : `${initial}${finalAndTone}`;
+  return `${initial}${finalAndTone}` == ''
+    ? ''
+    : shouldAddBrace
+      ? `{${initial}${finalAndTone}}`
+      : `${initial}${finalAndTone}`;
 };
 
 export const makeYngpingsCursive = yngpingToCursive;
