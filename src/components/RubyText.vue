@@ -1,5 +1,9 @@
 <template>
-  <template v-if="!props.text || !props.yngping"></template>
+  <ruby v-if="!props.text || !props.yngping">
+    <span class="rb">{{ props.text ?? '' }}</span>
+    <rp>(</rp><rt class="text-rosybrown-700">{{ props.yngping ?? '' }}</rt
+    ><rp>)</rp>
+  </ruby>
 
   <ruby v-else-if="!isMatchedTextSyllable">
     <span class="rb">{{ baldText }}</span>
