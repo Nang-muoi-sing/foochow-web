@@ -1,25 +1,22 @@
 <template>
   <div
-    v-if="processedData?.length > 0"
+    v-if="processedEntries?.length > 0"
     class="mt-2 mb-5 rounded-lg bg-white px-8 py-6"
   >
     <div class="mb-2 space-y-2">
       <WordCikLingEntry
-        v-for="(cikling, index) in processedData"
+        v-for="(cikling, index) in processedEntries"
         :data="cikling"
         :key="index"
       ></WordCikLingEntry>
     </div>
     <div class="text-rosybrown-800 space-y-1">
-      <template v-for="(cikling, index) in processedData" :key="index"
-        ><p v-if="cikling.liAnnotateCikOrder">
-          <Badge>{{ cikling.cikFinal }} {{ cikling.liAnnotateCikOrder }}</Badge
-          >{{ cikling.liAnnotateCik }}
-        </p>
-        <p v-if="cikling.liAnnotateLingOrder">
-          <Badge
-            >{{ cikling.lingFinal }} {{ cikling.liAnnotateLingOrder }}</Badge
-          >{{ cikling.liAnnotateLing }}
+      <template v-for="liAnnotation in processedLiAnnotations"
+        ><p>
+          <Badge v-for="liAnnotationOrder in liAnnotation.order">{{
+            liAnnotationOrder
+          }}</Badge
+          >{{ liAnnotation.content }}
         </p>
       </template>
     </div>
@@ -30,7 +27,7 @@
     <template v-if="props.isCommentedCikLing">
       <hr class="border-rosybrown-100 my-2 border-t-2" />
       <div class="text-rosybrown-800 space-y-1">
-        <template v-for="(cikling, index) in processedData" :key="index"
+        <template v-for="(cikling, index) in processedEntries" :key="index"
           ><p v-if="cikling.comment">
             <SeeSymbol class="text-rosybrown-700">校注</SeeSymbol
             >{{ cikling.comment }}
@@ -54,21 +51,56 @@ const props = defineProps<{
   isCommentedCikLing: boolean;
 }>();
 
-const processedData = computed(() => {
+const processedEntries = computed(() => {
   return props.data.map((item) => {
     const tone = toneCikLingMap[item.tone];
-    const cikAnnotation =
-      item.cikAnnotation == '' ? '' : removeNumber(item.cikAnnotation);
-    const lingAnnotation =
-      item.lingAnnotation == '' ? '' : removeNumber(item.lingAnnotation);
 
     return {
       ...item,
       tone,
-      cikAnnotation,
-      lingAnnotation,
     };
   });
+});
+
+interface CikLingLiAnnotation {
+  content: string;
+  order: Set<string>;
+}
+
+const processedLiAnnotations = computed(() => {
+  const annotationGroups: Record<string, CikLingLiAnnotation> = {};
+
+  props.data.forEach((item) => {
+    const cikOrder = `${item.cikFinal} ${item.liAnnotateCikOrder}`;
+    const lingOrder = `${item.lingFinal} ${item.liAnnotateLingOrder}`;
+
+    if (item.liAnnotateCik) {
+      if (!annotationGroups[item.liAnnotateCik]) {
+        annotationGroups[item.liAnnotateCik] = {
+          content: item.liAnnotateCik,
+          order: new Set([cikOrder]),
+        };
+      } else {
+        annotationGroups[item.liAnnotateCik].order.add(cikOrder);
+      }
+    }
+
+    if (item.liAnnotateLing) {
+      if (!annotationGroups[item.liAnnotateLing]) {
+        annotationGroups[item.liAnnotateLing] = {
+          content: item.liAnnotateLing,
+          order: new Set([lingOrder]),
+        };
+      } else {
+        annotationGroups[item.liAnnotateLing].order.add(lingOrder);
+      }
+    }
+  });
+
+  return Object.values(annotationGroups).map((group) => ({
+    content: removeNumber(group.content),
+    order: Array.from(group.order),
+  }));
 });
 
 const removeNumber = (str: string) => {
