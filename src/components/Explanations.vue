@@ -31,7 +31,7 @@ const parseNestedExplanations = (
       const lexicalIcon = item.lexical
         ? `<span
     class="seeicon- mr-1 inline-block align-text-bottom text-rosybrown-700"
-    style="font-size: 20px"
+    style="font-size: 20px; display: inline-block; width: 1em;"
     >${item.lexical}</span>`
         : '';
       const processedExpl = `${lexicalIcon}${replaceChineseQuotes(toggleGlyph(item.expl, props.currentGlyph))}`;
