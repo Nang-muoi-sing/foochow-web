@@ -24,7 +24,7 @@
       :current-glyph="currentGlyph"
     ></Explanations>
     <p v-if="props.data.comment">
-      <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol
+      <SeeSymbol class="text-rosybrown-700">注釋</SeeSymbol
       >{{ replaceChineseQuotes(props.data.comment) }}
     </p>
     <p class="text-rosybrown-200 mt-2 flex justify-end text-sm">
