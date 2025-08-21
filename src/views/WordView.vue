@@ -25,7 +25,7 @@
             :data="wordResponse.data.result.seedict.expls"
           ></Explanations>
           <p v-if="wordResponse.data.result.seedict.commentExpl">
-            <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol
+            <SeeSymbol class="text-rosybrown-700">注釋</SeeSymbol
             >{{ wordResponse.data.result.seedict.commentExpl }}
           </p>
           <template
@@ -37,11 +37,11 @@
             <hr class="border-rosybrown-100 my-2 border-t-2" />
             <div class="space-y-1">
               <p v-if="wordResponse.data.result.seedict.synonym">
-                <SeeSymbol class="text-rosybrown-700">近义词</SeeSymbol
+                <SeeSymbol class="text-rosybrown-700">近義詞</SeeSymbol
                 >{{ wordResponse.data.result.seedict.synonym }}
               </p>
               <p v-if="wordResponse.data.result.seedict.antonym">
-                <SeeSymbol class="text-rosybrown-700">反义词</SeeSymbol
+                <SeeSymbol class="text-rosybrown-700">反義詞</SeeSymbol
                 >{{ wordResponse.data.result.seedict.antonym }}
               </p>
             </div>
@@ -113,7 +113,7 @@
           >
             <hr class="border-rosybrown-100 my-2 border-t-2" />
             <p>
-              <SeeSymbol class="text-rosybrown-700">注释 </SeeSymbol
+              <SeeSymbol class="text-rosybrown-700">注釋 </SeeSymbol
               >{{ wordResponse.data.result.seedict.commentPron }}
             </p>
           </div>
@@ -162,7 +162,7 @@
           >
             <hr class="border-rosybrown-100 my-2 border-t-2" />
             <p>
-              <SeeSymbol class="text-rosybrown-700">注释</SeeSymbol>
+              <SeeSymbol class="text-rosybrown-700">注釋</SeeSymbol>
               {{ wordResponse.data.result.seedict.commentGlyph }}
             </p>
           </div>
