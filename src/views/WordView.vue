@@ -18,7 +18,13 @@
         </div>
       </div>
 
-      <template v-if="wordResponse.data.result.seedict.expls.length > 0">
+      <!-- TODO: 暂时隐藏只有词性没义项的释义部分 -->
+      <template
+        v-if="
+          wordResponse.data.result.seedict.expls.length > 0 &&
+          wordResponse.data.result.seedict.expls[0].expl
+        "
+      >
         <Subtitle text="本站释义"></Subtitle>
         <div class="text-rosybrown-800 mt-2 mb-5 rounded-lg bg-white px-8 py-6">
           <Explanations
@@ -120,7 +126,13 @@
         </div>
       </template>
 
-      <template v-if="wordResponse.data.result.seedict.phonetics">
+      <!-- yngping 字段可能为空字符串 -->
+      <template
+        v-if="
+          wordResponse.data.result.seedict.phonetics &&
+          wordResponse.data.result.seedict.phonetics.yngping
+        "
+      >
         <Subtitle text="注音一览"></Subtitle>
         <WordPhoneticCard
           :data="wordResponse.data.result.seedict.phonetics"
