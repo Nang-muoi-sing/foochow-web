@@ -160,8 +160,8 @@
               >
                 <td class="py-1.5">{{ glyph.glyph }}</td>
                 <td class="flex items-center justify-center py-2">
-                  <Badge v-if="glyph.category == '本字'">本字</Badge>
-                  <Badge v-else :content="glyph.category">俗字</Badge>
+                  <Badge v-if="glyph.category">{{ glyph.category }}</Badge>
+                  <Badge v-else>N/A</Badge>
                 </td>
                 <!-- <td class="py-1.5">{{ glyph.source }}</td> -->
               </tr>
