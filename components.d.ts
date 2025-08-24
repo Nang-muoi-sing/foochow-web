@@ -12,8 +12,6 @@ declare module 'vue' {
     Explanations: typeof import('./src/components/Explanations.vue')['default']
     FloatingImages: typeof import('./src/components/FloatingImages.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
-    IMaterialSymbolsArrowBackIosNewRounded: typeof import('~icons/material-symbols/arrow-back-ios-new-rounded')['default']
-    IMaterialSymbolsArrowForwardIosRounded: typeof import('~icons/material-symbols/arrow-forward-ios-rounded')['default']
     IMaterialSymbolsBook2Rounded: typeof import('~icons/material-symbols/book2-rounded')['default']
     IMaterialSymbolsCircle: typeof import('~icons/material-symbols/circle')['default']
     IMaterialSymbolsCircleOutline: typeof import('~icons/material-symbols/circle-outline')['default']
