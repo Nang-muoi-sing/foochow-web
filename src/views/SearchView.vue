@@ -7,13 +7,7 @@
       >
         查询：{{ state.q }}
       </div>
-      <span class="text-rosybrown-600 mb-2 px-2 text-sm">
-        {{
-          searchedResponse.data.totalResult
-            ? `共 ${searchedResponse.data.totalResult} 个相关结果`
-            : '没有找到相关结果'
-        }}
-      </span>
+
       <RouterLink
         class="block"
         v-for="result in searchedResponse.data.results"
@@ -51,19 +45,30 @@
         </div></RouterLink
       >
 
-      <Pagination
-        :cur-page="searchedResponse.data.currentPage"
-        :total-page="searchedResponse.data.totalPage"
-      ></Pagination>
+      <div v-if="!loadingMore && hasMore" class="mt-6 text-center">
+        <button
+          @click="loadMore"
+          :disabled="loadingMore"
+          class="bg-wheat-300 hover:bg-wheat-400 disabled:bg-wheat-200 rounded-lg px-6 py-3 text-white"
+        >
+          <span>加载更多</span>
+        </button>
+      </div>
+
+      <div
+        v-if="!hasMore && allResults.length > 0"
+        class="text-wheat-500 mt-6 text-center"
+      >
+        已显示所有 {{ allResults.length }} 条结果
+      </div>
     </template>
   </PageContent>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import PageContent from '../components/PageContent.vue';
-import Pagination from '../components/Pagination.vue';
 import RubyText from '../components/RubyText.vue';
 import SearchSkeleton from '../components/SearchSkeleton.vue';
 import { sourceMap } from '../utils/mapping';
@@ -71,23 +76,27 @@ import type { SearchResponse } from '../utils/typing';
 import { replaceChineseQuotes, toggleGlyph } from '../utils/typography';
 
 const route = useRoute();
-const router = useRouter();
 
 const loading = ref(false);
+const loadingMore = ref(false);
+
+const allResults = ref<any[]>([]);
+const nextCursor = ref<string | null>(null);
+const hasMore = ref(false);
+
 const state = ref({
   q: (route.query.q as string) || '',
-  page: parseInt((route.query.page as string) || '1', 10),
 });
-const searchedResponse = ref<SearchResponse>({
+
+const searchedResponse = computed(() => ({
   status: 0,
   data: {
-    q: '',
-    currentPage: 0,
-    totalPage: 0,
-    totalResult: 0,
-    results: [],
+    q: state.value.q,
+    results: allResults.value,
+    next_cursor: nextCursor.value,
+    has_more: hasMore.value,
   },
-});
+}));
 
 const updateTitle = () => {
   document.title = route.query.q
@@ -95,14 +104,15 @@ const updateTitle = () => {
     : `米时典 SeeDict - 检索`;
 };
 
-const fetchSearchResponse = async () => {
+const performSearch = async () => {
   loading.value = true;
+  allResults.value = [];
+  nextCursor.value = null;
+  hasMore.value = false;
 
   try {
     const params = new URLSearchParams();
     params.append('q', state.value.q);
-    if (state.value.page > 1)
-      params.append('page', state.value.page.toString());
 
     const url = `${import.meta.env.VITE_API_URL || '/'}/search?${params}`;
     const response = await fetch(url);
@@ -112,12 +122,10 @@ const fetchSearchResponse = async () => {
     }
 
     const data = (await response.json()) as SearchResponse;
-    searchedResponse.value = data;
 
-    if (state.value.page > 1 && data.data.totalResult === 0) {
-      state.value.page = 1;
-      router.push({ query: { q: state.value.q, page: 1 } });
-    }
+    allResults.value = data.data.results || [];
+    nextCursor.value = data.data.nextCursor || null;
+    hasMore.value = data.data.hasMore || false;
   } catch (error) {
     console.error('搜索请求失败:', error);
   } finally {
@@ -125,29 +133,45 @@ const fetchSearchResponse = async () => {
   }
 };
 
-watch(
-  [() => route.query.q, () => route.query.page],
-  ([newQ, newPage]) => {
-    if (typeof newQ === 'string') state.value.q = newQ;
+const loadMore = async () => {
+  if (!nextCursor.value || loadingMore.value) return;
 
-    let newPageSate = 1;
-    if (typeof newPage === 'string') {
-      const pageNum = parseInt(newPage, 10);
-      if (!isNaN(pageNum) && pageNum > 0) {
-        newPageSate = pageNum;
-      }
+  loadingMore.value = true;
+
+  try {
+    const params = new URLSearchParams();
+    params.append('q', state.value.q);
+    params.append('cursor', nextCursor.value!);
+
+    const url = `${import.meta.env.VITE_API_URL || '/'}/search?${params}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP错误: ${response.status}`);
     }
-    state.value.page = newPageSate;
-    if (state.value.q) {
-      fetchSearchResponse();
+
+    const data = (await response.json()) as SearchResponse;
+
+    // 追加新结果到现有列表
+    allResults.value = [...allResults.value, ...(data.data.results || [])];
+    nextCursor.value = data.data.nextCursor || null;
+    hasMore.value = data.data.hasMore || false;
+  } catch (error) {
+    console.error('加载更多失败:', error);
+  } finally {
+    loadingMore.value = false;
+  }
+};
+
+watch(
+  () => route.query.q,
+  (newQ) => {
+    if (typeof newQ === 'string') {
+      state.value.q = newQ;
+      updateTitle();
+      performSearch();
     }
   },
   { immediate: true }
 );
-
-onMounted(() => {
-  updateTitle();
-});
-
-watch(() => route.query.q, updateTitle);
 </script>

@@ -10,10 +10,9 @@ export interface SearchResponse {
   status: number;
   data: {
     q: string;
-    currentPage: number;
-    totalPage: number;
-    totalResult: number;
     results: SearchResult[];
+    nextCursor: string;
+    hasMore: boolean;
   };
 }
 
