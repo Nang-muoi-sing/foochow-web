@@ -190,6 +190,7 @@ import { useRoute, useRouter } from 'vue-router';
 import Badge from '../components/Badge.vue';
 import Explanations from '../components/Explanations.vue';
 import PageContent from '../components/PageContent.vue';
+import RubyText from '../components/RubyText.vue';
 import SeeSymbol from '../components/SeeSymbol.vue';
 import SideBar from '../components/SideBar.vue';
 import Subtitle from '../components/Subtitle.vue';
@@ -199,7 +200,6 @@ import WordPhoneticCard from '../components/WordPhoneticCard.vue';
 import WordSkeleton from '../components/WordSkeleton.vue';
 import { yngpingToIPA } from '../utils/phonetics';
 import type { WordResponse, WordSeeDict } from '../utils/typing';
-
 const apiUrl = import.meta.env.VITE_API_URL || '/';
 const route = useRoute();
 const router = useRouter();
