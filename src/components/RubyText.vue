@@ -1,14 +1,22 @@
 <template>
-  <ruby v-if="!props.text || !props.yngping">
-    <span class="rb">{{ props.text ?? '' }}</span>
-    <rp>(</rp><rt class="text-rosybrown-700">{{ props.yngping ?? '' }}</rt
-    ><rp>)</rp>
-  </ruby>
+  <ruby v-if="!props.text || !props.yngping || !isMatchedTextSyllable">
+    <template
+      v-if="props.text"
+      v-for="(char, index) in baldChars"
+      :key="`${char}-${index}`"
+    >
+      <span
+        class="rb"
+        :class="{
+          'after:bg-rosybrown-700 relative inline-block w-fit after:absolute after:-bottom-[0.2em] after:left-1/2 after:h-[0.15em] after:w-[0.15em] after:-translate-x-1/2 after:rounded-full after:content-[\'\']':
+            markedChars[index],
+        }"
+        >{{ char }}
+      </span>
+    </template>
 
-  <ruby v-else-if="!isMatchedTextSyllable">
-    <span class="rb">{{ baldText }}</span>
-    <rp>(</rp
-    ><rt class="text-rosybrown-700">{{ makeYngpingsCursive(props.yngping) }}</rt
+    <span v-else class="rb"></span>
+    <rp>(</rp><rt class="text-rosybrown-700">{{ props.yngping ?? '' }}</rt
     ><rp>)</rp>
   </ruby>
 
@@ -16,9 +24,12 @@
     <template v-for="(char, index) in baldChars" :key="`${char}-${index}`">
       <span
         class="rb"
-        :class="{ 'phonetic-loan-character': markedChars[index] }"
-        >{{ char }}</span
-      >
+        :class="{
+          'after:bg-rosybrown-700 relative inline-block w-fit after:absolute after:-bottom-[0.2em] after:left-1/2 after:h-[0.15em] after:w-[0.15em] after:-translate-x-1/2 after:rounded-full after:content-[\'\']':
+            markedChars[index],
+        }"
+        >{{ char }}
+      </span>
 
       <rp>(</rp
       ><rt class="text-rosybrown-700"
@@ -49,7 +60,7 @@ const markedChars = computed<boolean[]>(() => {
       continue;
     }
 
-    if (index === length - 1) {
+    if (index === chars.length - 1) {
       marks.push(false);
       continue;
     }
@@ -71,9 +82,3 @@ const isMatchedTextSyllable = computed(() => {
   return baldChars.value.length === syllables.value.length;
 });
 </script>
-
-<style scoped>
-.phonetic-loan-character {
-  text-emphasis-style: dot;
-}
-</style>
