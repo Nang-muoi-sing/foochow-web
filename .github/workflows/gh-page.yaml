@@ -20,10 +20,11 @@ jobs:
 
       - name: Install and Build 🔧
         env:
+          VITE_ENV_NAME: github-ci
           VITE_BASE_URL: /SeeDict
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
-          npm install
+          npm install --omit dev
           npm run build
 
       - name: Deploy 🚀
