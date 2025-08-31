@@ -14,3 +14,7 @@ export const toggleGlyph = (
     return mode === 'first' ? first : second;
   });
 };
+
+export const circleExplanations = (expls: string[]): string => {
+  return expls.map((item) => `◯${item}`).join('');
+};

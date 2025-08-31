@@ -4,7 +4,7 @@
   >
     <div
       v-for="(spring, index) in springs"
-      :key="index"
+      :key="cards[index].w"
       class="deck absolute flex touch-none items-center justify-center will-change-transform"
       :style="{ transform: `translate3d(${spring.x}px, ${spring.y}px, 0)` }"
     >
@@ -21,17 +21,18 @@
         <div
           class="flex h-1/1 flex-col items-center space-y-5 px-5 pt-5 font-sans"
         >
-          <div
-            class="ruby-container text-rosybrown-800 text-4xl font-bold break-all whitespace-normal md:text-5xl lg:text-6xl"
+          <RouterLink
+            class="block"
+            :to="{ name: 'word', query: { w: cards[index].w } }"
           >
-            <ruby
-              v-html="
-                makeYngpingRubyInner(cards[index].text, cards[index].pron)
-              "
-              style="ruby-align: center"
+            <div
+              class="text-rosybrown-800 text-4xl font-bold break-all whitespace-normal md:text-5xl lg:text-6xl"
             >
-            </ruby>
-          </div>
+              <RubyText
+                :text="cards[index].text"
+                :yngping="cards[index].pron"
+              ></RubyText></div
+          ></RouterLink>
           <p
             class="text-rosybrown-800 max-w-lg overflow-hidden text-base text-ellipsis lg:text-lg"
           >
@@ -48,100 +49,27 @@
 
 <script lang="ts" setup>
 import gsap from 'gsap';
-import { onMounted, reactive, ref } from 'vue';
-import { makeYngpingRubyInner } from '../utils/phonetics';
+import { computed, onMounted, reactive, ref } from 'vue';
+import RubyText from './RubyText.vue';
+import { replaceChineseQuotes, circleExplanations } from '../utils/typography';
 
-// 卡片数据
-const cards = [
-  {
-    year: '2025',
-    month: '03',
-    day: '26',
-    week: '星期三',
-    text: '花生仁',
-    pron: 'hua21 leing55 ning53',
-    expl: '◯落花生的果實去殼剩下的種子。北京話叫「花生米」。◯蟲蛹，因其外形像花生米而得名。',
-  },
-  {
-    year: '2025',
-    month: '03',
-    day: '27',
-    week: '星期四',
-    text: '葵花子',
-    pron: 'gi21 ua53 i33',
-    expl: '◯炒熟的作食品的向日葵種子。',
-  },
-  {
-    year: '2025',
-    month: '03',
-    day: '28',
-    week: '星期五',
-    text: '山頭嶺尾',
-    pron: 'sang55 tau53 liang33 mui33',
-    expl: '◯泛指山的方方面面。',
-  },
-  {
-    year: '2025',
-    month: '03',
-    day: '29',
-    week: '星期六',
-    text: '水漲水汐',
-    pron: 'zui24 doung33 zui55 puong213',
-    expl: '◯潮汐。由於月亮和太陽的吸引力的作用，海洋水面發生的定時漲落現象。',
-  },
-  {
-    year: '2025',
-    month: '03',
-    day: '30',
-    week: '星期日',
-    text: '水窟',
-    pron: 'zui33 koouk24',
-    expl: '◯田地邊的坑，用以蓄水澆地。◯指積水地坑，非人工挖鑿的水坑。 ',
-  },
-  {
-    year: '2025',
-    month: '03',
-    day: '31',
-    week: '星期一',
-    text: '黃⿰禾台',
-    pron: 'uong53 dai55',
-    expl: '◯草本植物，葉子線形，子實淡黃色，比小米稍大，煮熟後有黏性，可以釀酒等。北京話叫“黍子”。 ',
-  },
-  {
-    year: '2025',
-    month: '04',
-    day: '01',
-    week: '星期二',
-    text: '溪笍',
-    pron: 'ke55 nak5',
-    expl: '◯用毛竹篾做成的縴繩。船在溪澗航行時，多需拉縴。',
-  },
-];
+type Word = {
+  w: string;
+  text: string;
+  pron: string;
+  expl: string[];
+};
 
-// 定义弹簧数据的类型
 type Spring = {
   x: number;
   y: number;
   scale: number;
 };
 
-// 存储被移除的卡片索引
+const words = ref<Word[]>([]);
 const gone = ref(new Set<number>());
-
-// 生成每个卡片的初始弹簧数据
-const initialSprings: Spring[] = reactive(
-  cards.map(
-    (_, i): Spring => ({
-      x: i * 4,
-      y: i * 4,
-      scale: 1,
-    })
-  )
-);
-
 // 卡片的弹簧数据
-const springs = reactive<Spring[]>([...initialSprings]);
-
+const springs = reactive<Spring[]>([]);
 // 存储当前拖动的卡片索引
 const currentDraggingIndex = ref<number | null>(null);
 // 存储拖动开始时的鼠标或触摸位置
@@ -151,12 +79,69 @@ const movementX = ref(0);
 // 存储拖动开始的时间
 const startTime = ref(0);
 
-// 初始化弹簧数据
-const initSprings = (): void => {
-  springs.length = 0;
-  initialSprings.forEach((spring) => {
-    springs.push({ ...spring });
+const cards = computed(() => {
+  return words.value.map((word) => {
+    return {
+      ...word,
+      expl: replaceChineseQuotes(circleExplanations(word.expl)),
+    };
   });
+});
+
+const fetchWords = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL || '/'}/shuffle`
+    );
+
+    if (!response.ok) {
+      throw new Error('获取数据失败');
+    }
+
+    const responseData = await response.json();
+
+    if (responseData.status == 200 && responseData.data.randomWords) {
+      words.value = responseData.data.randomWords;
+
+      setTimeout(() => {
+        initSprings();
+      }, 0);
+    } else {
+      throw new Error('数据格式不正确');
+    }
+  } catch (err) {
+    console.error('获取词汇数据失败:', err);
+  }
+};
+
+const initSprings = (): void => {
+  // 清空现有弹簧数据
+  springs.length = 0;
+
+  // 为新卡片创建弹簧数据
+  cards.value.forEach((_, i) => {
+    // 初始位置设置在屏幕外，为入场动画做准备
+    springs.push({
+      x: i * 4,
+      y: i * 4,
+      scale: 1,
+    });
+  });
+
+  // 异步执行入场动画，确保DOM已更新
+  setTimeout(() => {
+    cards.value.forEach((_, i) => {
+      gsap.to(springs[i], {
+        x: i * 4,
+        y: i * 4,
+        scale: 1,
+        duration: 0.6,
+        delay: i * 0.05,
+        ease: 'power2.out',
+      });
+    });
+  }, 0);
+
   gone.value.clear();
 };
 
@@ -201,10 +186,10 @@ const onDragEnd = (index: number): void => {
         duration: 0.5,
         ease: 'power2.out',
         onComplete: () => {
-          if (gone.value.size === cards.length) {
+          if (gone.value.size === cards.value.length) {
             setTimeout(() => {
-              initSprings();
-            }, 600);
+              fetchWords();
+            }, 0);
           }
         },
       });
@@ -223,7 +208,7 @@ const onDragEnd = (index: number): void => {
 };
 
 onMounted(() => {
-  initSprings();
+  fetchWords();
 });
 </script>
 
