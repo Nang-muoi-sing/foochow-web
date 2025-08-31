@@ -8,12 +8,20 @@
     <div
       class="hover:bg-wheat-50 text-rosybrown-600 hover:text-rosybrown-800 m-1 content-center rounded-xs px-3 py-1.5 font-bold transition-all ease-in-out"
     >
-      <a href="#">入门</a>
+      <a
+        href="https://jcnf40n3hvft.feishu.cn/wiki/IjlswECJRi4L5tkbM2bcuwQGnWf"
+        target="_blank"
+        >入门</a
+      >
     </div>
     <div
       class="hover:bg-wheat-50 text-rosybrown-600 hover:text-rosybrown-800 m-1 content-center rounded-xs px-3 py-1.5 font-bold transition-all ease-in-out"
     >
-      <RouterLink :to="{ name: 'help' }">帮助</RouterLink>
+      <a
+        href="https://jcnf40n3hvft.feishu.cn/docx/FSqidtsgjo25x0x6R1KcChopnTc"
+        target="_blank"
+        >帮助</a
+      >
     </div>
     <div
       class="hover:bg-wheat-50 text-rosybrown-600 hover:text-rosybrown-800 m-1 content-center rounded-xs px-3 py-1.5 font-bold transition-all ease-in-out"

@@ -45,13 +45,27 @@
         </div></RouterLink
       >
 
-      <div v-if="!loadingMore && hasMore" class="mt-6 text-center">
+      <div class="text-wheat-400 mt-6 text-center text-sm">
+        没有找到想找的词汇？尝试<a
+          href="https://jcnf40n3hvft.feishu.cn/share/base/form/shrcnfDrtD7nlpJdryFlYFUU3Lf"
+          target="_blank"
+          class="hover:text-wheat-600 underline underline-offset-4 transition-all"
+          >向我们反馈</a
+        >或<a
+          href="https://jcnf40n3hvft.feishu.cn/share/base/form/shrcnAQ3W3DjmPV7ycTJ1ekiFBf"
+          target="_blank"
+          class="hover:text-wheat-600 underline underline-offset-4 transition-all"
+          >向我们提交数据</a
+        >
+      </div>
+
+      <div v-if="hasMore" class="mt-6 text-center">
         <button
           @click="loadMore"
           :disabled="loadingMore"
           class="bg-wheat-300 hover:bg-wheat-400 disabled:bg-wheat-200 rounded-lg px-6 py-3 text-white"
         >
-          <span>加载更多</span>
+          <div :class="{ 'animate-bounce': loadingMore }">加载更多</div>
         </button>
       </div>
 
@@ -59,7 +73,7 @@
         v-if="!hasMore && allResults.length > 0"
         class="text-wheat-500 mt-6 text-center"
       >
-        已显示所有 {{ allResults.length }} 条结果
+        已显示所有 {{ allResults.length }} 条相关结果
       </div>
     </template>
   </PageContent>
@@ -92,7 +106,7 @@ const state = ref({
 const searchedResponse = computed(() => ({
   status: 0,
   data: {
-    queries: queries.value.join("、"),
+    queries: queries.value.join('、'),
     results: allResults.value,
     nextCursor: nextCursor.value,
     hasMore: hasMore.value,
