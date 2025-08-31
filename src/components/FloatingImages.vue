@@ -8,7 +8,7 @@
       :style="{
         left: `${randomPositions[index]?.x || 0}%`,
         top: `${randomPositions[index]?.y || 0}%`,
-        '--animation-delay': `${Math.random() * 500}ms`, // 随机延迟渐显动画
+        '--animation-delay': `${Math.random() * 600}ms`, // 随机延迟渐显动画
       }"
     >
       <img class="h-full w-full object-cover object-left" :src="wordImg.img" />
@@ -28,12 +28,12 @@ import img5 from '../assets/snacks/uo-gui.png';
 import img6 from '../assets/snacks/uo-ne.png';
 
 const imgList = [
-  { img: img1, url: '#' },
-  { img: img2, url: '#' },
-  { img: img3, url: '#' },
-  { img: img4, url: '#' },
-  { img: img5, url: '#' },
-  { img: img6, url: '#' },
+  { img: img1, url: '/word?w=L6Cq00' },
+  { img: img2, url: '/word?w=bWYYZZ' },
+  { img: img3, url: '/word?w=dtlcN7' },
+  { img: img4, url: '/word?w=FZAKul' },
+  { img: img5, url: '/word?w=SHqtKQ' },
+  { img: img6, url: '/word?w=x1Bvhs' },
 ];
 
 // 生成随机位置
