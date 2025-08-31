@@ -5,7 +5,7 @@
       <div
         class="bg-wheat-300 mb-2.5 w-fit rounded-lg px-2 py-1 text-xl text-white"
       >
-        查询：{{ state.q }}
+        查询：{{ searchedResponse.data.queries }}
       </div>
 
       <RouterLink
@@ -80,6 +80,7 @@ const route = useRoute();
 const loading = ref(false);
 const loadingMore = ref(false);
 
+const queries = ref<string[]>([]);
 const allResults = ref<any[]>([]);
 const nextCursor = ref<string | null>(null);
 const hasMore = ref(false);
@@ -91,10 +92,10 @@ const state = ref({
 const searchedResponse = computed(() => ({
   status: 0,
   data: {
-    q: state.value.q,
+    queries: queries.value.join("、"),
     results: allResults.value,
-    next_cursor: nextCursor.value,
-    has_more: hasMore.value,
+    nextCursor: nextCursor.value,
+    hasMore: hasMore.value,
   },
 }));
 
@@ -123,6 +124,7 @@ const performSearch = async () => {
 
     const data = (await response.json()) as SearchResponse;
 
+    queries.value = data.data.queries || [];
     allResults.value = data.data.results || [];
     nextCursor.value = data.data.nextCursor || null;
     hasMore.value = data.data.hasMore || false;
