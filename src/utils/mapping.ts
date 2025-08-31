@@ -103,6 +103,7 @@ export const yngpingFengIPAFinalMap: Record<string, string> = {
   yok: 'yoʔ',
   eoh: 'œʔ',
   aik: 'aiʔ',
+  ook: 'ɔʔ',
   oouk: 'ɔuʔ',
   ooyk: 'ɔyʔ',
   ih: 'iʔ',
@@ -119,6 +120,7 @@ export const yngpingFengIPAFinalMap: Record<string, string> = {
   uoh: 'uoʔ',
   yoh: 'yoʔ',
   aih: 'aiʔ',
+  ooh: 'ɔʔ',
   oouh: 'ɔuʔ',
   ooyh: 'ɔyʔ',
 };
