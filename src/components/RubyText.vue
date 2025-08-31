@@ -16,7 +16,10 @@
     </template>
 
     <span v-else class="rb"></span>
-    <rp>(</rp><rt class="text-rosybrown-700">{{ props.yngping ?? '' }}</rt
+    <rp>(</rp
+    ><rt class="text-rosybrown-700">{{
+      makeYngpingsCursive(props.yngping) ?? ''
+    }}</rt
     ><rp>)</rp>
   </ruby>
 
@@ -32,9 +35,12 @@
       </span>
 
       <rp>(</rp
-      ><rt class="text-rosybrown-700"
+      ><rt v-if="baldChars.length > 1" class="text-rosybrown-700"
         >&thinsp;{{ makeYngpingCursive(syllables[index]) }}&thinsp;</rt
-      ><rp>)</rp>
+      ><rt v-else class="text-rosybrown-700">{{
+        makeYngpingCursive(syllables[index])
+      }}</rt>
+      <rp>)</rp>
     </template>
   </ruby>
 </template>
